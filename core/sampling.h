@@ -263,7 +263,7 @@ inline void HaltonShuffleScrambled2D(const RandomGenerator &rng, u_int nSamples,
 // sadly, MSVC2008 (at least) doesn't support hexidecimal fp constants...
 static const float OneMinusEpsilon=0.9999999403953552f;
 #else
-static const float OneMinusEpsilon=0x1.fffffep-1;
+static const float OneMinusEpsilon=0.9999999403953552f;
 #endif
 
 // Directly from PBRT2
