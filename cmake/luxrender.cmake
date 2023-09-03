@@ -19,8 +19,9 @@
 #   Lux website: http://www.luxrender.net                                 #
 ###########################################################################
 
-FIND_PACKAGE(Qt5 COMPONENTS Core Gui Widgets)
+FIND_PACKAGE(Qt5 COMPONENTS Core Gui Widgets REQUIRED)
 
+IF(QT5_FOUND)
 	MESSAGE(STATUS "Qt library directory: " ${QT_LIBRARY_DIR} )
 	MESSAGE( STATUS "Qt include directory: " ${QT_INCLUDE_DIR} )
 
@@ -130,3 +131,6 @@ FIND_PACKAGE(Qt5 COMPONENTS Core Gui Widgets)
 		MESSAGE(STATUS "Qt libs: ${QT_LIBRARIES}}")
 		TARGET_LINK_LIBRARIES(luxrender Qt5::Core Qt5::Gui Qt5::Widgets ${LUX_LIBRARY} ${LUX_LIBRARY_DEPENDS})
 	ENDIF(APPLE)
+ELSE(QT5_FOUND)
+	MESSAGE( STATUS "Warning : could not find Qt - not building Qt GUI")
+ENDIF(QT5_FOUND)
