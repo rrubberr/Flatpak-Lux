@@ -46,7 +46,7 @@ PaneWidget::PaneWidget(QWidget *parent, const QString& label, const QString& ico
 
 	ui->setupUi(this);
 	
-	ui->frame->setStyleSheet(QString::fromUtf8(" QFrame {\n""background-color: rgb(53, 53, 53)\n""}\n"""));
+	ui->frame->setStyleSheet(QString::fromUtf8(" QFrame {\n""background-color: rgb(54, 54, 54)\n""}\n"""));
 
 	if (!icon.isEmpty())
 		ui->labelPaneIcon->setPixmap(QPixmap(icon));
