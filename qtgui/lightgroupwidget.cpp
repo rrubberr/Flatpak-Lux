@@ -260,7 +260,7 @@ void LightGroupWidget::ResetValuesFromFilm(bool useDefaults)
 	
 	title = QString(tmpStr);
 	
-	//m_LG_name->SetLabel(wxString::FromAscii(tmpStr));
+	//m_LG_name->SetLabel(wxString::fromLatin1(tmpStr));
 	m_LG_enable = retrieveParam( useDefaults, LUX_FILM, LUX_FILM_LG_ENABLE, m_Index) != 0.f;
 
 	// set enabled here so pane can pick it up when this widget is added to it

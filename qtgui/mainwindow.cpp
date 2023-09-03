@@ -349,7 +349,7 @@ MainWindow::MainWindow(QWidget *parent, bool copylog2console)
 	// Queue tab
 	ui->tree_queue->setModel(&renderQueue);
 	ui->tree_queue->setContextMenuPolicy(Qt::CustomContextMenu);
-	ui->tree_queue->header()->setMovable(false);
+	ui->tree_queue->header()->setSectionsMovable(false);
 	ui->checkBox_overrideWriteFlm->setTristate();
 	ui->checkBox_overrideWriteFlm->setCheckState(Qt::PartiallyChecked);
 
@@ -1560,7 +1560,7 @@ void MainWindow::EngineThread::run()
 	qsrand(time(NULL));
 
 	// if stdin is input, don't use full path
-	if (filename == QString::fromAscii("-"))
+	if (filename == QString::fromLatin1("-"))
 		luxParse("-");
 	else
 	{
@@ -2114,7 +2114,7 @@ void MainWindow::changeRenderState(LuxGuiRenderState state)
 // TODO: replace with queued signals
 bool MainWindow::event (QEvent *event)
 {
-	bool retval = FALSE;
+	bool retval = false;
 	int eventtype = event->type();
 
 	// Check if it's one of "our" events
