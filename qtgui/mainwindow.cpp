@@ -2219,7 +2219,7 @@ bool MainWindow::event (QEvent *event)
 
 void MainWindow::logEvent(LuxLogEvent *event)
 {
-	static const QColor debugColour = Qt::black;
+	static const QColor debugColour = Qt::white;
 	static const QColor infoColour = Qt::green;
 	static const QColor warningColour = Qt::darkYellow;
 	static const QColor errorColour = Qt::red;
