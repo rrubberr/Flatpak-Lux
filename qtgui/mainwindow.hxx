@@ -223,7 +223,7 @@ class MainWindow : public QMainWindow
 	Q_OBJECT
 
 public:
-	MainWindow(QWidget *parent = 0, bool copylog2console = FALSE);
+	MainWindow(QWidget *parent = 0, bool copylog2console = false);
 	~MainWindow();
 
 	void SetRenderThreads(int num);
