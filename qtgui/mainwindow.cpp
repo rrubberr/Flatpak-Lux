@@ -2237,7 +2237,7 @@ void MainWindow::logEvent(LuxLogEvent *event)
 
 	QTextCharFormat fmt(cursor.charFormat());
 
-	QColor textColor = Qt::black;
+	QColor textColor = Qt::white;
 
 	switch(event->getSeverity()) {
 		case LUX_DEBUG:
