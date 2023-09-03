@@ -20,7 +20,7 @@
 ###########################################################################
 
 set(CMAKE_FIND_DEBUG_MODE TRUE)
-FIND_PACKAGE(Qt5 COMPONENTS Core Widgets REQUIRED)
+FIND_PACKAGE(Qt5 COMPONENTS Core Gui Widgets REQUIRED)
 set(CMAKE_FIND_DEBUG_MODE FALSE)
 
 IF(QT5_FOUND)
