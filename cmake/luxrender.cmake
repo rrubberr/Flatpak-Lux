@@ -22,7 +22,7 @@
 
 FIND_PACKAGE(Qt5 COMPONENTS Core Gui Network Widgets REQUIRED)
 
-IF(QT4_FOUND)
+IF(QT5_FOUND)
 	MESSAGE(STATUS "Qt library directory: " ${QT_LIBRARY_DIR} )
 	MESSAGE( STATUS "Qt include directory: " ${QT_INCLUDE_DIR} )
 
@@ -132,6 +132,6 @@ IF(QT4_FOUND)
 		MESSAGE(STATUS "Qt libs: ${QT_LIBRARIES}}")
 		TARGET_LINK_LIBRARIES(luxrender Qt5::Core Qt5::Gui Qt5::Network Qt5::Widgets ${LUX_LIBRARY} ${LUX_LIBRARY_DEPENDS})
 	ENDIF(APPLE)
-ELSE(QT4_FOUND)
+ELSE(QT5_FOUND)
 	MESSAGE( STATUS "Warning : could not find Qt - not building Qt GUI")
-ENDIF(QT4_FOUND)
+ENDIF(QT5_FOUND)
