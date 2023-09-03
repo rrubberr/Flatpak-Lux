@@ -20,9 +20,8 @@
 ###########################################################################
 
 set(Qt5_MODULES Core Gui Widgets)
-FIND_PACKAGE(Qt5 5.12.0 COMPONENTS ${Qt5_MODULES})
+FIND_PACKAGE(Qt5 COMPONENTS ${Qt5_MODULES})
 
-IF(Qt5_FOUND)
 	MESSAGE(STATUS "Qt library directory: " ${QT_LIBRARY_DIR} )
 	MESSAGE( STATUS "Qt include directory: " ${QT_INCLUDE_DIR} )
 
@@ -132,6 +131,3 @@ IF(Qt5_FOUND)
 		MESSAGE(STATUS "Qt libs: ${QT_LIBRARIES}}")
 		TARGET_LINK_LIBRARIES(luxrender Qt5::Core Qt5::Gui Qt5::Widgets ${LUX_LIBRARY} ${LUX_LIBRARY_DEPENDS})
 	ENDIF(APPLE)
-ELSE(Qt5_FOUND)
-	MESSAGE( STATUS "Warning : could not find Qt - not building Qt GUI")
-ENDIF(Qt5_FOUND)
