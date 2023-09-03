@@ -19,7 +19,7 @@
 #   Lux website: http://www.luxrender.net                                 #
 ###########################################################################
 
-FIND_PACKAGE(Qt5 COMPONENTS Core Gui Widgets REQUIRED)
+FIND_PACKAGE(Qt5 COMPONENTS Core Gui Widgets)
 
 IF(QT5_FOUND)
 	MESSAGE(STATUS "Qt library directory: " ${QT_LIBRARY_DIR} )
