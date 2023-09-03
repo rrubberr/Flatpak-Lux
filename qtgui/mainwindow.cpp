@@ -2136,7 +2136,7 @@ bool MainWindow::event (QEvent *event)
 			applyTonemapping();
 		}
 
-		retval = TRUE;
+		retval = true;
 	}
 	else if (eventtype == EVT_LUX_PARSEERROR) {
 		m_loadTimer->stop();
@@ -2144,7 +2144,7 @@ bool MainWindow::event (QEvent *event)
 		indicateActivity(false);
 		statusMessage->setText("Loading aborted");
 		changeRenderState(FINISHED);
-		retval = TRUE;
+		retval = true;
 	}
 	else if (eventtype == EVT_LUX_FLMLOADERROR) {
 		blinkTrigger();
@@ -2156,7 +2156,7 @@ bool MainWindow::event (QEvent *event)
 			m_flmloadThread = NULL;
 		}
 		changeRenderState(WAITING);
-		retval = TRUE;
+		retval = true;
 	}
 	else if (eventtype == EVT_LUX_FINISHED) {
 		if (m_guiRenderState == RENDERING) {
@@ -2168,7 +2168,7 @@ bool MainWindow::event (QEvent *event)
 				changeRenderState(FINISHED);
 			}
 		}
-		retval = TRUE;
+		retval = true;
 	}
 	else if (eventtype == EVT_LUX_SAVEDFLM) {
 		m_saveTimer->stop();
@@ -2179,11 +2179,11 @@ bool MainWindow::event (QEvent *event)
 			m_flmsaveThread->wait();
 		delete m_flmsaveThread;
 		m_flmsaveThread = NULL;
-		retval = TRUE;
+		retval = true;
 	}
 	else if (eventtype == EVT_LUX_LOGEVENT) {
 		logEvent((LuxLogEvent *)event);
-		retval = TRUE;
+		retval = true;
 	}
 	else if (eventtype == EVT_LUX_BATCHEVENT) {
 		if(((BatchEvent*)event)->isFinished())
@@ -2199,14 +2199,14 @@ bool MainWindow::event (QEvent *event)
 			batchProgress->setLabelText(tr("Processing %1 ...").arg(((BatchEvent*)event)->getCurrentFile()));
 		}
 
-		retval = TRUE;
+		retval = true;
 	} else if (eventtype == EVT_LUX_NETWORKUPDATETREEEVENT) {
 		ui->button_addServer->setEnabled(true);
 		ui->button_removeServer->setEnabled(true);
 
 		UpdateNetworkTree();
 
-		retval = TRUE;
+		retval = true;
 	}
 
 	if (retval) {
