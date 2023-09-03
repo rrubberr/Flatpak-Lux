@@ -193,8 +193,8 @@ void LensEffectsWidget::resetFromFilm (bool useDefaults)
 	luxSetParameterValue(LUX_FILM, LUX_FILM_GLARE_RADIUS, m_Glare_radius);
 	luxSetParameterValue(LUX_FILM, LUX_FILM_GLARE_BLADES, m_Glare_blades);
 	luxSetParameterValue(LUX_FILM, LUX_FILM_GLARE_MAP, m_Glare_map);
-	luxSetStringParameterValue(LUX_FILM, LUX_FILM_GLARE_PUPIL, m_Glare_pupil.toAscii().data());
-	luxSetStringParameterValue(LUX_FILM, LUX_FILM_GLARE_LASHES, m_Glare_lashes.toAscii().data());
+	luxSetStringParameterValue(LUX_FILM, LUX_FILM_GLARE_PUPIL, m_Glare_pupil.toLatin1().data());
+	luxSetStringParameterValue(LUX_FILM, LUX_FILM_GLARE_LASHES, m_Glare_lashes.toLatin1().data());
 }
 
 void LensEffectsWidget::gaussianAmountChanged (int value)
@@ -432,7 +432,7 @@ void LensEffectsWidget::glareBrowsePupilMap()
 		return;
 
 	ui->lineEdit_pupilMap->setText(m_Glare_pupil);
-	updateParam(LUX_FILM, LUX_FILM_GLARE_PUPIL, m_Glare_pupil.toAscii().data());
+	updateParam(LUX_FILM, LUX_FILM_GLARE_PUPIL, m_Glare_pupil.toLatin1().data());
 
 	QFileInfo info(m_Glare_pupil);
 	m_lastOpendir = info.absolutePath();
@@ -446,7 +446,7 @@ void LensEffectsWidget::glareBrowseLashesMap()
 		return;
 
 	ui->lineEdit_lashesMap->setText(m_Glare_lashes);
-	updateParam(LUX_FILM, LUX_FILM_GLARE_LASHES, m_Glare_lashes.toAscii().data());
+	updateParam(LUX_FILM, LUX_FILM_GLARE_LASHES, m_Glare_lashes.toLatin1().data());
 
 	QFileInfo info(m_Glare_lashes);
 	m_lastOpendir = info.absolutePath();

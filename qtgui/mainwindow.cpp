@@ -1084,9 +1084,9 @@ bool MainWindow::saveCurrentImageHDR(const QString &outFile)
 {
 	// Done inside API for now (set openExr* members to control OpenEXR format options)
 	if (ui->action_HDR_tonemapped->isChecked())
-		return luxSaveEXR(outFile.toAscii().data(), openExrHalfFloats, openExrDepthBuffer, openExrCompressionType, true);
+		return luxSaveEXR(outFile.toLatin1().data(), openExrHalfFloats, openExrDepthBuffer, openExrCompressionType, true);
 	else
-		return luxSaveEXR(outFile.toAscii().data(), openExrHalfFloats, openExrDepthBuffer, openExrCompressionType, false);
+		return luxSaveEXR(outFile.toLatin1().data(), openExrHalfFloats, openExrDepthBuffer, openExrCompressionType, false);
 	return false;
 }
 
@@ -2843,7 +2843,7 @@ void MainWindow::resetServer()
 	if (!ok)
 		return;
 
-	luxResetServer(server.toAscii(), password.toAscii());
+	luxResetServer(server.toLatin1(), password.toLatin1());
 
 	qApp->postEvent(this, new NetworkUpdateTreeEvent());
 }
