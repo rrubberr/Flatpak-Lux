@@ -19,7 +19,9 @@
 #   Lux website: http://www.luxrender.net                                 #
 ###########################################################################
 
+set(CMAKE_FIND_DEBUG_MODE TRUE)
 FIND_PACKAGE(Qt5 COMPONENTS Core Gui Widgets REQUIRED)
+set(CMAKE_FIND_DEBUG_MODE FALSE)
 
 IF(QT5_FOUND)
 	MESSAGE(STATUS "Qt library directory: " ${QT_LIBRARY_DIR} )
