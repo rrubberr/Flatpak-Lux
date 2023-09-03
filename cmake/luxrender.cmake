@@ -20,7 +20,7 @@
 ###########################################################################
 
 set(Qt5_MODULES Core Gui Widgets)
-FIND_PACKAGE(Qt5 COMPONENTS ${Qt5_MODULES})
+FIND_PACKAGE(Qt5 5.12.0 COMPONENTS ${Qt5_MODULES})
 
 IF(Qt5_FOUND)
 	MESSAGE(STATUS "Qt library directory: " ${QT_LIBRARY_DIR} )
