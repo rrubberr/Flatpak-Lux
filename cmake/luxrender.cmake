@@ -21,6 +21,10 @@
 
 set(CMAKE_FIND_DEBUG_MODE TRUE)
 FIND_PACKAGE(Qt5 COMPONENTS Core Gui Widgets REQUIRED)
+get_cmake_property(_variableNames VARIABLES)
+	foreach (_variableName ${_variableNames})
+	message(STATUS "${_variableName}=${${_variableName}}")
+	endforeach()
 set(CMAKE_FIND_DEBUG_MODE FALSE)
 
 IF(QT5_FOUND)
