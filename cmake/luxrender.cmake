@@ -20,7 +20,7 @@
 ###########################################################################
 
 
-FIND_PACKAGE(Qt5 CONFIG COMPONENTS Widgets REQUIRED)
+FIND_PACKAGE(Qt5 COMPONENTS Widgets REQUIRED)
 
 IF(QT5_FOUND)
 	MESSAGE(STATUS "Qt library directory: " ${QT_LIBRARY_DIR} )
