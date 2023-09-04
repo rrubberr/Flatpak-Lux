@@ -170,7 +170,7 @@ void RenderView::reload()
 			QPixmap checkerboard(":/images/checkerboard.png");
 			renderscene->setBackgroundBrush(checkerboard);
 		} else {
-			renderscene->setBackgroundBrush(QColor(127,127,127));
+			renderscene->setBackgroundBrush(QColor(53,53,53));
 		}
 		
 		if (image.isNull())
