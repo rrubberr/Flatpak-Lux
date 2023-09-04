@@ -53,7 +53,7 @@ RenderView::RenderView(QWidget *parent) : QGraphicsView(parent)
 	userSamplingPixmap = renderscene->addPixmap(QPixmap(":/images/luxlogo_bg.png"));
 	userSamplingPixmap->hide ();
 	userSamplingMapImage = NULL;
-	renderscene->setSceneRect (0.0f, 0.0f, 416, 389);
+	renderscene->setSceneRect (0.0f, 0.0f, 512, 512);
 	centerOn(luxlogo);
 	setScene(renderscene);
 	zoomfactor = 100.0f;
