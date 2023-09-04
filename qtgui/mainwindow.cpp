@@ -414,11 +414,11 @@ MainWindow::MainWindow(QWidget *parent, bool copylog2console)
 	statsBoxLayout = new QHBoxLayout(statsBox);
 
 	activityLabel->setMaximumWidth(60);
-	activityMessage->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+	activityMessage->setFrameStyle(QFrame::Panel | QFrame::Plain);
 	activityMessage->setMaximumWidth(140);
 
 	statusLabel->setMaximumWidth(60);
-	statusMessage->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+	statusMessage->setFrameStyle(QFrame::Panel | QFrame::Plain);
 	statusMessage->setMaximumWidth(320);
 	statusMessage->setMinimumWidth(100);
 	statusProgress->setMaximumWidth(100);
@@ -426,7 +426,7 @@ MainWindow::MainWindow(QWidget *parent, bool copylog2console)
 	statusProgress->setRange(0, 100);
 
 	statsLabel->setMaximumWidth(70);
-	statsBox->setFrameStyle(QFrame::Panel | QFrame::Sunken);
+	statsBox->setFrameStyle(QFrame::Panel | QFrame::Plain);
 	statsBoxLayout->setSpacing(0);
 	statsBoxLayout->setContentsMargins(3, 0, 3, 0);
 	statsBoxLayout->addStretch(-1);
@@ -2270,7 +2270,7 @@ void MainWindow::logEvent(LuxLogEvent *event)
 	cursor.setCharFormat(fmt);
 	cursor.insertText(ss.readAll());
 
-	fmt.setForeground(QBrush(Qt::black));
+	fmt.setForeground(QBrush(Qt::white));
 	cursor.setCharFormat(fmt);
 	ss << event->getMessage() << endl;
 	cursor.insertText(ss.readAll());
