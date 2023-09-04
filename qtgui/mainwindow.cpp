@@ -414,11 +414,11 @@ MainWindow::MainWindow(QWidget *parent, bool copylog2console)
 	statsBoxLayout = new QHBoxLayout(statsBox);
 
 	activityLabel->setMaximumWidth(60);
-	activityMessage->setFrameStyle(QFrame::Panel | QFrame::Plain);
+	activityMessage->setFrameStyle(QFrame::Panel);
 	activityMessage->setMaximumWidth(140);
 
 	statusLabel->setMaximumWidth(60);
-	statusMessage->setFrameStyle(QFrame::Panel | QFrame::Plain);
+	statusMessage->setFrameStyle(QFrame::Panel);
 	statusMessage->setMaximumWidth(320);
 	statusMessage->setMinimumWidth(100);
 	statusProgress->setMaximumWidth(100);
@@ -426,7 +426,7 @@ MainWindow::MainWindow(QWidget *parent, bool copylog2console)
 	statusProgress->setRange(0, 100);
 
 	statsLabel->setMaximumWidth(70);
-	statsBox->setFrameStyle(QFrame::Panel | QFrame::Plain);
+	statsBox->setFrameStyle(QFrame::Panel);
 	statsBoxLayout->setSpacing(0);
 	statsBoxLayout->setContentsMargins(3, 0, 3, 0);
 	statsBoxLayout->addStretch(-1);
