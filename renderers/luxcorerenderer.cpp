@@ -1347,7 +1347,7 @@ template<class T> string GetLuxCoreTexName(luxcore::Scene *lcScene,
 			const BandTexture<T> *bandTex = dynamic_cast<const BandTexture<T> *>(tex);
 			const string amountTexName = GetLuxCoreTexName(lcScene, bandTex->GetAmountTex());
 			const vector<float> &offsets = bandTex->GetOffsets();
-			const vector<boost::shared_ptr<Texture<T> > > &texs = bandTex->GetTextures();
+			const vector<std::shared_ptr<Texture<T> > > &texs = bandTex->GetTextures();
 			
 
 			texProps << luxrays::Property("scene.textures." + texName + ".type")("band") <<
@@ -2725,7 +2725,7 @@ void LuxCoreRenderer::ConvertGeometry(luxcore::Scene *lcScene, ColorSystem &colo
 			const InstancePrimitive *instance = dynamic_cast<const InstancePrimitive *>(prim);
 			const string instanceMatName = GetLuxCoreMaterialName(scene, lcScene, instance, colorSpace);
 
-			const vector<boost::shared_ptr<Primitive> > &instanceSources = instance->GetInstanceSources();
+			const vector<std::shared_ptr<Primitive> > &instanceSources = instance->GetInstanceSources();
 
 			for (u_int i = 0; i < instanceSources.size(); ++i) {
 				const Primitive *instancedSource = instanceSources[i].get();
@@ -2766,7 +2766,7 @@ void LuxCoreRenderer::ConvertGeometry(luxcore::Scene *lcScene, ColorSystem &colo
 			const MotionPrimitive *motionPrim = dynamic_cast<const MotionPrimitive *>(prim);
 			const string motionMatName = GetLuxCoreMaterialName(scene, lcScene, motionPrim, colorSpace);
 
-			const vector<boost::shared_ptr<Primitive> > &instanceSources = motionPrim->GetInstanceSources();
+			const vector<std::shared_ptr<Primitive> > &instanceSources = motionPrim->GetInstanceSources();
 
 			for (u_int i = 0; i < instanceSources.size(); ++i) {
 				const Primitive *instancedSource = instanceSources[i].get();
