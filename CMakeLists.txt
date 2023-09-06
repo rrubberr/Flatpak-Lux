@@ -418,7 +418,7 @@ ELSEIF(MSVC)
 ELSE(APPLE)
 	# Dade - default compiler options
 	# Removed "-O3" from definitions in order to have CMake Release/Debug options to work
-	ADD_DEFINITIONS(-msse2 -mfpmath=sse -funsafe-math-optimizations -march=native -ftree-vectorize -funroll-loops -Wall -fPIC -DHAVE_PTHREAD_H)
+	ADD_DEFINITIONS(-DNDEBUG -msse2 -mfpmath=sse -funsafe-math-optimizations -march=native -ftree-vectorize -funroll-loops -Wall -fPIC -DHAVE_PTHREAD_H)
 	set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -fvisibility=hidden -fvisibility-inlines-hidden")
 	set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fvisibility=hidden -fvisibility-inlines-hidden")
 ENDIF(APPLE)
