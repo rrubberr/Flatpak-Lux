@@ -406,7 +406,7 @@
             </property>
             <property name="maximumSize">
              <size>
-              <width>80</width>
+              <width>120</width>
               <height>16777215</height>
              </size>
             </property>
@@ -562,7 +562,7 @@
            <widget class="QComboBox" name="comboBox_ExposurePreset">
             <property name="maximumSize">
              <size>
-              <width>80</width>
+              <width>120</width>
               <height>16777215</height>
              </size>
             </property>
@@ -673,7 +673,7 @@
            <widget class="QComboBox" name="comboBox_FStopPreset">
             <property name="maximumSize">
              <size>
-              <width>80</width>
+              <width>120</width>
               <height>16777215</height>
              </size>
             </property>
