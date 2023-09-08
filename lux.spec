@@ -60,7 +60,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_includedir}/luxrender
 %{_bindir}/luxconsole
 %{_bindir}/luxrender
-%{_datadir}/pixmaps/luxrender.svg
+%{_datadir}/pixmaps/luxrender.png
 %{_datadir}/applications/luxrender.desktop
 %{_libdir}/liblux.a
 %{_includedir}/luxrender/api.h
