@@ -81,11 +81,19 @@ using namespace cimg_library;
 #endif
 
 
-#include <ImfInputFile.h>
-#include <ImfOutputFile.h>
-#include <ImfChannelList.h>
-#include <ImfFrameBuffer.h>
+#include <OpenEXR/ImfInputFile.h>
+#include <OpenEXR/ImfOutputFile.h>
+#include <OpenEXR/ImfChannelList.h>
+#include <OpenEXR/ImfFrameBuffer.h>
+#include <OpenEXR/ImfImage.h>
+#include <OpenEXR/ImfImageIO.h>
 #include <half.h>
+
+#include <Imath/ImathVec.h>
+//this has an error for some reason, i'm not sure why. it compiles though
+#include <OpenEXR/ImfRgbaFile.h>
+#include <OpenEXR/ImfRgba.h>
+
 /*#ifndef __APPLE__
 #include "lux.h"
 #include "error.h"
@@ -436,7 +444,7 @@ namespace lux {
 
 			ImageSpec config;
 			config.attribute("oiio:UnassociatedAlpha", 1);
-			std::auto_ptr<ImageInput> in(ImageInput::open(name, &config));
+			std::shared_ptr<ImageInput> in(ImageInput::open(name, &config));
 			if (in.get()) {
 				const ImageSpec &spec = in->spec();
 
