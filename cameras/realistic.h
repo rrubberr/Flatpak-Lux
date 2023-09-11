@@ -29,12 +29,12 @@ namespace lux
 
 struct Lens {
     Lens(const bool ent, const float n, const float ap,
-        boost::shared_ptr<Shape> shape) 
+        std::shared_ptr<Shape> shape) 
         : entering(ent), eta(n), aperture(ap), shape(shape) { }
     bool entering;
     float eta;
     float aperture;
-    boost::shared_ptr<Shape> shape;
+    std::shared_ptr<Shape> shape;
 };
 
 class RealisticCamera : public Camera {
@@ -74,7 +74,7 @@ private:
 	float filmDistance, filmDist2, filmDiag;
 	float apertureDiameter, distToBack, backAperture;
  
-	vector<boost::shared_ptr<Lens> > lenses;
+	vector<std::shared_ptr<Lens> > lenses;
 
 	Transform RasterToFilm, RasterToCamera, FilmToCamera;
 };

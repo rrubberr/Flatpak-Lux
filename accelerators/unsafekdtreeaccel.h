@@ -32,9 +32,9 @@ namespace lux {
 // UnsafeKdAccelNode Declarations
 
 struct MailboxPrim {
-	MailboxPrim(boost::shared_ptr<Primitive> p) : primitive(p),
+	MailboxPrim(std::shared_ptr<Primitive> p) : primitive(p),
 		lastMailboxId(-1) { }
-	boost::shared_ptr<Primitive> primitive;
+	std::shared_ptr<Primitive> primitive;
 	int lastMailboxId;
 };
 
@@ -115,7 +115,7 @@ struct UnsafeKdAccelNode;
 class  UnsafeKdTreeAccel : public Aggregate {
 public:
     // UnsafeKdTreeAccel Public Methods
-    UnsafeKdTreeAccel(const vector<boost::shared_ptr<Primitive> > &p,
+    UnsafeKdTreeAccel(const vector<std::shared_ptr<Primitive> > &p,
 		int icost, int scost, float ebonus, int maxp, int maxDepth);
     virtual BBox WorldBound() const { return bounds; }
     virtual bool CanIntersect() const { return true; }
@@ -126,9 +126,9 @@ public:
 		return Transform();
 	}
 
-    virtual void GetPrimitives(vector<boost::shared_ptr<Primitive> > &prims) const;
+    virtual void GetPrimitives(vector<std::shared_ptr<Primitive> > &prims) const;
 
-    static Aggregate *CreateAccelerator(const vector<boost::shared_ptr<Primitive> > &prims, const ParamSet &ps);
+    static Aggregate *CreateAccelerator(const vector<std::shared_ptr<Primitive> > &prims, const ParamSet &ps);
 
 private:
     void buildTree(int nodeNum, const BBox &bounds,

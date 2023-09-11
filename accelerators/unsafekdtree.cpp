@@ -29,12 +29,12 @@ using namespace luxrays;
 using namespace lux;
 
 // UnsafeKdTreeAccel Method Definitions
-UnsafeKdTreeAccel::UnsafeKdTreeAccel(const vector<boost::shared_ptr<Primitive> > &p,
+UnsafeKdTreeAccel::UnsafeKdTreeAccel(const vector<std::shared_ptr<Primitive> > &p,
         int icost, int tcost,
         float ebonus, int maxp, int maxDepth)
 : isectCost(icost), traversalCost(tcost),
         maxPrims(maxp), emptyBonus(ebonus) {
-    vector<boost::shared_ptr<Primitive> > prims;
+    vector<std::shared_ptr<Primitive> > prims;
     PrimitiveRefinementHints refineHints(false);
     for (u_int i = 0; i < p.size(); ++i) {
     	if(p[i]->CanIntersect())
@@ -389,14 +389,14 @@ bool UnsafeKdTreeAccel::IntersectP(const Ray &ray) const {
     return false;
 }
 
-void UnsafeKdTreeAccel::GetPrimitives(vector<boost::shared_ptr<Primitive> > &primitives) const {
+void UnsafeKdTreeAccel::GetPrimitives(vector<std::shared_ptr<Primitive> > &primitives) const {
 	primitives.reserve(nMailboxes);
 	for(u_int i=0; i < nMailboxes; i++) {
 		primitives.push_back(mailboxPrims[i].primitive);
 	}
 }
 
-Aggregate *UnsafeKdTreeAccel::CreateAccelerator(const vector<boost::shared_ptr<Primitive> > &prims,
+Aggregate *UnsafeKdTreeAccel::CreateAccelerator(const vector<std::shared_ptr<Primitive> > &prims,
         const ParamSet &ps) {
     int isectCost = ps.FindOneInt("intersectcost", 80);
     int travCost = ps.FindOneInt("traversalcost", 1);

@@ -133,7 +133,7 @@ luxrays::DataSet *HybridRenderer::PreprocessGeometry(luxrays::Context *ctx, Scen
 		if (dynamic_cast<const InstancePrimitive *>(prim)) {
 			const InstancePrimitive *instance = dynamic_cast<const InstancePrimitive *>(prim);
 
-			const vector<boost::shared_ptr<Primitive> > &instanceSources = instance->GetInstanceSources();
+			const vector<std::shared_ptr<Primitive> > &instanceSources = instance->GetInstanceSources();
 
 			for (u_int i = 0; i < instanceSources.size(); ++i) {
 				const Primitive *instancedSource = instanceSources[i].get();

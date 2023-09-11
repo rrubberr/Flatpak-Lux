@@ -155,9 +155,9 @@ float RealisticCamera::ParseLensData(const string& specfile) {
                 paramSet.AddFloat("height", &height);
                 paramSet.AddFloat("radius", &radius);
                 paramSet.AddFloat("innerradius", &innerradius);
-                boost::shared_ptr<Shape> shape = 
+                std::shared_ptr<Shape> shape = 
                     MakeShape("disk", Transform(), false, paramSet);
-				boost::shared_ptr<Lens> o (new Lens(false, 1.f, aperture, shape));
+				std::shared_ptr<Lens> o (new Lens(false, 1.f, aperture, shape));
                 lenses.push_back(o);
                 ni = 1.f;
             }
@@ -176,10 +176,10 @@ float RealisticCamera::ParseLensData(const string& specfile) {
                 ParamSet paramSet;
                 paramSet.AddFloat("radius", &radius);
                 paramSet.AddFloat("aperture", &aperture);
-                boost::shared_ptr<Shape> shape = 
+                std::shared_ptr<Shape> shape = 
                     MakeShape("lenscomponent", lensToCam, false, 
                     paramSet);
-				boost::shared_ptr<Lens> o (new Lens(entering, nt/ni, aperture, shape));
+				std::shared_ptr<Lens> o (new Lens(entering, nt/ni, aperture, shape));
                 lenses.push_back(o);
                 ni = nt;
             }

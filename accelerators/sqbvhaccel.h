@@ -41,7 +41,7 @@ public:
 	   @param fst the threshold before switching to full sweep for split
 	   @param sf the skip factor during split determination
 	*/
-	SQBVHAccel(const vector<boost::shared_ptr<Primitive> > &p, u_int mp, u_int fst, u_int sf, float a);
+	SQBVHAccel(const vector<std::shared_ptr<Primitive> > &p, u_int mp, u_int fst, u_int sf, float a);
 	virtual ~SQBVHAccel() { }
 
 	/**
@@ -49,7 +49,7 @@ public:
 	   @param prims vector of primitives to store into the SQBVH
 	   @param ps configuration parameters
 	*/
-	static Aggregate *CreateAccelerator(const vector<boost::shared_ptr<Primitive> > &prims, const ParamSet &ps);
+	static Aggregate *CreateAccelerator(const vector<std::shared_ptr<Primitive> > &prims, const ParamSet &ps);
 
 private:
 	/**
@@ -58,13 +58,13 @@ private:
 	*/
 	void BuildTree(vector<vector<u_int> > *nodesPrims,
 			const std::vector<u_int> &primsIndexes,
-			const vector<boost::shared_ptr<Primitive> > &vPrims,
+			const vector<std::shared_ptr<Primitive> > &vPrims,
 			const std::vector<BBox> &primsBboxes, const BBox &nodeBbox,
 			const int32_t parentIndex, const int32_t childIndex,
 			const int depth);
 
 	int BuildSpatialSplit(const std::vector<u_int> &primsIndexes,
-		const vector<boost::shared_ptr<Primitive> > &vPrims,
+		const vector<std::shared_ptr<Primitive> > &vPrims,
 		const std::vector<BBox> &primsBboxes, const BBox &nodeBbox,
 		int &axis, BBox &leftChildBbox, BBox &rightChildBbox,
 		u_int &leftChildReferences, u_int &rightChildReferences);
@@ -78,7 +78,7 @@ private:
 		std::vector<u_int> &leftPrimsIndexes, std::vector<u_int> &rightPrimsIndexes,
 		std::vector<BBox> &objectLeftPrimsBbox, std::vector<BBox> &objectRightPrimsBbox);
 	void DoSpatialSplit(const std::vector<u_int> &primsIndexes,
-		const vector<boost::shared_ptr<Primitive> > &vPrims, const std::vector<BBox> &primsBboxes,
+		const vector<std::shared_ptr<Primitive> > &vPrims, const std::vector<BBox> &primsBboxes,
 		const BBox &nodeBbox, const int spatialSplitBin, const int spatialSplitAxis,
 		const u_int spatialLeftChildReferences, const u_int spatialRightChildReferences,
 		std::vector<u_int> &leftPrimsIndexes, std::vector<u_int> &rightPrimsIndexes,
