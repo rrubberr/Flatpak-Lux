@@ -35,6 +35,7 @@
 #include "luxrays/utils/ocl.h"
 #include "luxrays/core/virtualdevice.h"
 #include "luxcore/luxcore.h"
+#include "luxcore/luxcoreimpl.h"
 
 #include "api.h"
 #include "scene.h"
@@ -45,6 +46,8 @@
 #include "luxcorerenderer.h"
 #include "renderers/statistics/luxcorestatistics.h"
 #include "cameras/perspective.h"
+#include "cameras/orthographic.h"
+#include "cameras/environment.h"
 #include "shape.h"
 #include "volume.h"
 #include "filter.h"
@@ -99,6 +102,7 @@
 #include "textures/constant.h"
 #include "textures/imagemap.h"
 #include "textures/scale.h"
+#include "textures/densitygrid.h"
 #include "textures/dots.h"
 #include "textures/brick.h"
 #include "textures/add.h"
@@ -575,8 +579,13 @@ template<class T> luxrays::Properties GetLuxCoreTexMapping(const T *mapping, con
 			return luxrays::Properties() <<
 					luxrays::Property(prefix + ".mapping.type")("globalmapping3d") <<
 					luxrays::Property(prefix + ".mapping.transformation")(globalMapping3D->WorldToTexture.m);
+		} else if (dynamic_cast<const LocalMapping3D *>(mapping)) {
+			const LocalMapping3D *localMapping3D = dynamic_cast<const LocalMapping3D *>(mapping);
+			return luxrays::Properties() <<
+					luxrays::Property(prefix + ".mapping.type")("localmapping3d") <<
+					luxrays::Property(prefix + ".mapping.transformation")(localMapping3D->WorldToTexture.m);
 		} else {
-			LOG(LUX_WARNING, LUX_UNIMPLEMENT) << "LuxCoreRenderer supports only texture coordinate mapping with UVMapping2D, UVMapping3D and GlobalMapping3D (i.e. not " <<
+			LOG(LUX_WARNING, LUX_UNIMPLEMENT) << "LuxCoreRenderer supports only texture coordinate mapping with UVMapping2D, UVMapping3D, GlobalMapping3D and LocalMapping3D (i.e. not " <<
 					ToClassName(mapping) << "). Ignoring the mapping.";
 		}
 	}
@@ -1343,6 +1352,18 @@ template<class T> string GetLuxCoreTexName(luxcore::Scene *lcScene,
 
 			texProps << luxrays::Property("scene.textures." + texName + ".type")("uv") <<
 					GetLuxCoreTexMapping(uvTex->GetTextureMapping2D(), "scene.textures." + texName);
+
+		} else if (dynamic_cast<const DensityGridTexture *>(tex)) {
+			const DensityGridTexture *densitygridTex = dynamic_cast<const DensityGridTexture *>(tex);
+
+			texProps << luxrays::Property("scene.textures." + texName + ".type")("densitygrid") <<
+					luxrays::Property("scene.textures." + texName + ".nx")(ToString(densitygridTex->GetNx())) <<
+					luxrays::Property("scene.textures." + texName + ".ny")(ToString(densitygridTex->GetNy())) <<
+					luxrays::Property("scene.textures." + texName + ".nz")(ToString(densitygridTex->GetNz())) <<
+					luxrays::Property("scene.textures." + texName + ".wrap")(ToString(densitygridTex->GetWrap())) <<
+					luxrays::Property("scene.textures." + texName + ".data")(densitygridTex->GetData()) <<
+					GetLuxCoreTexMapping(densitygridTex->GetTextureMapping3D(), "scene.textures." + texName);
+
 		} else if (dynamic_cast<const BandTexture<T> *>(tex)) {
 			const BandTexture<T> *bandTex = dynamic_cast<const BandTexture<T> *>(tex);
 			const string amountTexName = GetLuxCoreTexName(lcScene, bandTex->GetAmountTex());
@@ -2223,7 +2244,7 @@ static string GetLuxCoreMaterialName(Scene *scene, luxcore::Scene *lcScene, cons
 			if (dynamic_cast<const MipMapSphericalFunction *>(sf)) {
 				const MipMapSphericalFunction *mmsf = dynamic_cast<const MipMapSphericalFunction *>(sf);
 
-				emissionMapName = GetLuxCoreImageMapName(lcScene, mmsf->GetMipMap(), 2.2f);
+				emissionMapName = GetLuxCoreImageMapName(lcScene, mmsf->GetMipMap(), 1.f);
 			} else {
 				LOG(LUX_WARNING, LUX_UNIMPLEMENT) << "Unsupported type of SphericalFunction in an area light (i.e. " <<
 					ToClassName(sf) << "). Ignoring the unsupported feature.";
@@ -2509,7 +2530,7 @@ void LuxCoreRenderer::ConvertLights(luxcore::Scene *lcScene, ColorSystem &colorS
 				if (dynamic_cast<const MipMapSphericalFunction *>(sf)) {
 					const MipMapSphericalFunction *mmsf = dynamic_cast<const MipMapSphericalFunction *>(sf);
 
-					const string imageMapName = GetLuxCoreImageMapName(lcScene, mmsf->GetMipMap(), 2.2f);
+					const string imageMapName = GetLuxCoreImageMapName(lcScene, mmsf->GetMipMap(), 1.f);
 					createPointLightProps << luxrays::Property(prefix + ".type")("mappoint") <<
 							luxrays::Property(prefix + ".mapfile")(imageMapName);
 				} else {
@@ -2702,9 +2723,10 @@ vector<luxrays::ExtTriangleMesh *> LuxCoreRenderer::DefinePrimitive(luxcore::Sce
 	vector<luxrays::ExtTriangleMesh *> meshList;
 	prim->ExtTessellate(&meshList, &scene->tessellatedPrimitives);
 
+	luxcore::detail::SceneImpl *lcSceneImpl = (luxcore::detail::SceneImpl *)lcScene;
 	for (vector<luxrays::ExtTriangleMesh *>::const_iterator mesh = meshList.begin(); mesh != meshList.end(); ++mesh) {
 		const string meshName = "Mesh-" + ToString(*mesh);
-		lcScene->DefineMesh(meshName, *mesh);
+		lcSceneImpl->DefineMesh(meshName, *mesh);
 	}
 
 	return meshList;
@@ -2847,28 +2869,50 @@ void LuxCoreRenderer::ConvertGeometry(luxcore::Scene *lcScene, ColorSystem &colo
 
 void LuxCoreRenderer::ConvertCamera(luxcore::Scene *lcScene) {
 	LOG(LUX_DEBUG, LUX_NOERROR) << "Camera type: " << ToClassName(scene->camera());
+	OrthoCamera *orthoCamera = dynamic_cast<OrthoCamera *>(scene->camera());
 	PerspectiveCamera *perspCamera = dynamic_cast<PerspectiveCamera *>(scene->camera());
-	if (!perspCamera)
-		throw std::runtime_error("LuxCoreRenderer supports only PerspectiveCamera");
+	EnvironmentCamera *envCamera = dynamic_cast<EnvironmentCamera *>(scene->camera());
+
+	if (!perspCamera && !orthoCamera && !envCamera)
+		throw std::runtime_error("LuxCoreRenderer supports only Perspective, Orthographic and Environment Camera");
 
 	//--------------------------------------------------------------------------
-	// Setup the camera
+	// Setup the cameras
 	//--------------------------------------------------------------------------
 
+	// Properties shared by all cameras
 	luxrays::Properties createCameraProps(
-		luxrays::Property("scene.camera.screenwindow")(
-			(scene->camera)["ScreenWindow.0"].FloatValue(),
-			(scene->camera)["ScreenWindow.1"].FloatValue(),
-			(scene->camera)["ScreenWindow.2"].FloatValue(),
-			(scene->camera)["ScreenWindow.3"].FloatValue()) <<
-		luxrays::Property("scene.camera.fieldofview")(Degrees((scene->camera)["fov"].FloatValue())) <<
-		luxrays::Property("scene.camera.lensradius")((scene->camera)["LensRadius"].FloatValue()) <<
-		luxrays::Property("scene.camera.focaldistance")((scene->camera)["FocalDistance"].FloatValue()) <<
-		luxrays::Property("scene.camera.cliphither")((scene->camera)["ClipHither"].FloatValue()) <<
-		luxrays::Property("scene.camera.clipyon")((scene->camera)["ClipYon"].FloatValue()) <<
-		luxrays::Property("scene.camera.shutteropen")((scene->camera)["ShutterOpen"].FloatValue()) <<
-		luxrays::Property("scene.camera.shutterclose")((scene->camera)["ShutterClose"].FloatValue()) <<
-		luxrays::Property("scene.camera.autofocus.enable")(perspCamera->HasAutoFocus() ? 1 : 0));
+			luxrays::Property("scene.camera.cliphither")((scene->camera)["ClipHither"].FloatValue()) <<
+			luxrays::Property("scene.camera.clipyon")((scene->camera)["ClipYon"].FloatValue()) <<
+			luxrays::Property("scene.camera.shutteropen")((scene->camera)["ShutterOpen"].FloatValue()) <<
+			luxrays::Property("scene.camera.shutterclose")((scene->camera)["ShutterClose"].FloatValue()));
+
+	if (dynamic_cast<OrthoCamera *>(scene->camera()) || dynamic_cast<PerspectiveCamera *>(scene->camera())) {
+		createCameraProps <<
+			luxrays::Property("scene.camera.screenwindow")(
+				(scene->camera)["ScreenWindow.0"].FloatValue(),
+				(scene->camera)["ScreenWindow.1"].FloatValue(),
+				(scene->camera)["ScreenWindow.2"].FloatValue(),
+				(scene->camera)["ScreenWindow.3"].FloatValue()) <<
+			luxrays::Property("scene.camera.lensradius")((scene->camera)["LensRadius"].FloatValue()) <<
+			luxrays::Property("scene.camera.focaldistance")((scene->camera)["FocalDistance"].FloatValue());
+	}
+
+	if (dynamic_cast<OrthoCamera *>(scene->camera())) {
+		createCameraProps <<
+			luxrays::Property("scene.camera.type")("orthographic") <<
+			luxrays::Property("scene.camera.autofocus.enable")(orthoCamera->HasAutoFocus() ? 1 : 0);
+
+	} else if (dynamic_cast<PerspectiveCamera *>(scene->camera())) {
+		createCameraProps <<
+			luxrays::Property("scene.camera.type")("perspective") <<
+			luxrays::Property("scene.camera.fieldofview")(Degrees((scene->camera)["fov"].FloatValue())) <<
+			luxrays::Property("scene.camera.autofocus.enable")(perspCamera->HasAutoFocus() ? 1 : 0);
+
+	} else 	if (dynamic_cast<EnvironmentCamera *>(scene->camera())) {
+		createCameraProps <<
+			luxrays::Property("scene.camera.type")("environment");
+	}
 
 	const MotionSystem &ms = scene->camera()->GetMotionSystem();
 	if (ms.interpolatedTransforms.size() > 1) {
@@ -2904,13 +2948,13 @@ void LuxCoreRenderer::ConvertCamera(luxcore::Scene *lcScene) {
 				luxrays::Property("scene.camera.lookat.target")(target) <<
 				luxrays::Property("scene.camera.up")(up);
 	}
-	
+
 	LOG(LUX_DEBUG, LUX_NOERROR) << "Creating camera: [\n" << createCameraProps << "]";
 	lcScene->Parse(createCameraProps);
 }
 
 luxcore::Scene *LuxCoreRenderer::CreateLuxCoreScene(const luxrays::Properties &lcConfigProps, ColorSystem &colorSpace) {
-	luxcore::Scene *lcScene = new luxcore::Scene();
+	luxcore::Scene *lcScene = luxcore::Scene::Create();
 
 	// Tell to the cache to not delete mesh data (they are pointed by Lux
 	// primitives too and they will be deleted by Lux Context)
@@ -3434,8 +3478,8 @@ void LuxCoreRenderer::Render(Scene *s) {
 
 		LuxCoreStatistics *lcStats = static_cast<LuxCoreStatistics *>(rendererStatistics);
 
-		std::auto_ptr<luxcore::RenderConfig> config(new luxcore::RenderConfig(lcConfigProps, lcScene.get()));
-		std::auto_ptr<luxcore::RenderSession> session(new luxcore::RenderSession(config.get()));
+		std::auto_ptr<luxcore::RenderConfig> config(luxcore::RenderConfig::Create(lcConfigProps, lcScene.get()));
+		std::auto_ptr<luxcore::RenderSession> session(luxcore::RenderSession::Create(config.get()));
 
 		// Statistic information about the devices will be available only after
 		// the start of the RenderSession

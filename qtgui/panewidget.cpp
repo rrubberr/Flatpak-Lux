@@ -48,13 +48,15 @@ PaneWidget::PaneWidget(QWidget *parent, const QString& label, const QString& ico
 	
 	ui->frame->setStyleSheet(QString::fromUtf8(" QFrame {\n""background-color: rgb(54, 54, 54)\n""}\n"""));
 
-	if (!icon.isEmpty())
+	if (!icon.isEmpty()) {
 		ui->labelPaneIcon->setPixmap(QPixmap(icon));
 		ui->labelPaneIcon->setStyleSheet(QString::fromUtf8(" QFrame {\n""background-color: rgba(232, 232, 232, 0)\n""}"));
+	}
 	
-	if (!label.isEmpty())
+	if (!label.isEmpty()) {
 		ui->labelPaneName->setText(label);
 		ui->labelPaneName->setStyleSheet(QString::fromUtf8(" QFrame {\n""background-color: rgba(232, 232, 232, 0)\n""}"));
+	}
 
 #if defined(__APPLE__)
 	ui->frame->setLineWidth(2);

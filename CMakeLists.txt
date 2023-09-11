@@ -41,7 +41,7 @@ IF(COMMAND cmake_policy)
 ENDIF(COMMAND cmake_policy)
 
 PROJECT(lux)
-SET(VERSION 1.5dev)
+SET(VERSION 1.7dev)
 
 SET(LUX_CMAKE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} 
@@ -99,6 +99,7 @@ IF(APPLE)
 	if(${MAC_SYS} MATCHES 15)
 		set(OSX_SYSTEM 10.11)
 		cmake_minimum_required(VERSION 3.0.0) # throw an error here, older cmake cannot handle 2 digit subversion !
+		set(QT_BINARY_DIR /usr/local/bin) # workaround for the locked /usr/bin install Qt ti /usr/local !
 	elseif(${MAC_SYS} MATCHES 14)
 		set(OSX_SYSTEM 10.10)
 		cmake_minimum_required(VERSION 3.0.0) # throw an error here, older cmake cannot handle 2 digit subversion !
@@ -398,9 +399,9 @@ ELSEIF(MSVC)
 		# See http://public.kitware.com/Bug/view.php?id=6794
 		# /GL will be used to build the code but the selection is not displayed in the menu
 
-		#set(MSVC_RELEASE_COMPILER_FLAGS "/WX- /MP /Ox /Ob2 /Oi /Oy /GT /GL /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /openmp /Gd /TP /GL /GF /Ot /Qfast_transcendentals /wd\"4244\" /wd\"4756\" /wd\"4267\" /wd\"4056\" /wd\"4305\" /wd\"4800\" ")
-		# /Ob2 is bugged in VS2013 right now, so have to disable it :(
-		set(MSVC_RELEASE_COMPILER_FLAGS "/WX- /MP /Ox /Ob0 /Oi /Oy /GT /GL /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /openmp /Gd /TP /GL /GF /Ot /Qfast_transcendentals /wd\"4244\" /wd\"4756\" /wd\"4267\" /wd\"4056\" /wd\"4305\" /wd\"4800\" ")
+		# /Ob2 is bugged in VS2013 right now, so we had to disable it, but the problem has been fixed with this commit:
+		# https://bitbucket.org/luxrender/luxrays/commits/66e8d5dc99f5bda5f65f815a2d8b9b8cd4dcb62b
+		set(MSVC_RELEASE_COMPILER_FLAGS "/WX- /MP /Ox /Ob2 /Oi /Oy /GT /GL /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /GR /openmp /Gd /TP /GL /GF /Ot /Qfast_transcendentals /wd\"4244\" /wd\"4756\" /wd\"4267\" /wd\"4056\" /wd\"4305\" /wd\"4800\" ")
 		set(MSVC_RELEASE_WITH_DEBUG_COMPILER_FLAGS "/Zi")
 		
 		set(CMAKE_C_FLAGS_RELEASE   "${CMAKE_C_FLAGS_RELEASE}   ${MSVC_RELEASE_COMPILER_FLAGS}")
@@ -418,7 +419,7 @@ ELSEIF(MSVC)
 	ELSE(APPLE)
 	# Dade - default compiler options
 	# Removed "-O3" from definitions in order to have CMake Release/Debug options to work
-	# ADD_DEFINITIONS(-msse2 -mfpmath=sse -ftree-vectorize -funroll-loops -Wall -fPIC -DHAVE_PTHREAD_H)
+	ADD_DEFINITIONS(-msse2 -mfpmath=sse -ftree-vectorize -funroll-loops -Wall -fPIC -DHAVE_PTHREAD_H)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden -fvisibility-inlines-hidden")
 	# The QBVH accelerator needs to be compiled with much reduced optimizations
 	# otherwise gcc produces incorrect code and ruins the render on 64bits machines
@@ -532,7 +533,7 @@ ELSE(APPLE)
 	SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 	SET(CMAKE_INSTALL_RPATH "$ORIGIN")
 ENDIF(APPLE)
-SET(LUX_LIBRARY_DEPENDS ${LUXRAYS_LIBRARY} ${LUXCORE_LIBRARY} ${SLG_LIBRARY} ${EMBREE_LIBRARY} ${OPENCL_LIBRARIES} ${OPENGL_LIBRARY} ${FREEIMAGE_LIBRARIES} ${OPENIMAGEIO_LIBRARIES} ${TIFF_LIBRARIES} ${PNG_LIBRARIES} ${JPEG_LIBRARIES} ${Boost_LIBRARIES} ${FFTW_LIBRARIES} ${SYS_LIBRARIES})
+SET(LUX_LIBRARY_DEPENDS ${LUXRAYS_LIBRARY} ${LUXCORE_LIBRARY} ${SLG_LIBRARY} ${EMBREE_LIBRARY} ${OPENCL_LIBRARIES} ${OPENGL_LIBRARY} ${FREEIMAGE_LIBRARIES} ${OPENIMAGEIO_LIBRARIES} ${OPENEXR_LIBRARIES} ${TIFF_LIBRARIES} ${PNG_LIBRARIES} ${JPEG_LIBRARIES} ${Boost_LIBRARIES} ${FFTW_LIBRARIES} ${SYS_LIBRARIES})
 
 #############################################################################
 #############################################################################
@@ -573,7 +574,12 @@ ELSEIF(WIN32)
 
 	#TODO: custom install
 	IF (DEFINED ENV{LIB_DIR})
+      # Copy all the boost, Qt, Embree etc DLLs to the build destination
 	  FILE(COPY "$ENV{LIB_DIR}/" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE}" FILES_MATCHING PATTERN "*.dll")
+      # Copy the Qt plugins into the destination directory
+      FILE(COPY "$ENV{LIB_DIR}/qtplugins" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE}")
+      # Copy the qt.conf file
+      FILE(COPY "$ENV{LIB_DIR}/../../../qt.conf" DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_BUILD_TYPE}")
 	ENDIF()
 
 ELSE(APPLE)
