@@ -79,16 +79,17 @@ using namespace cimg_library;
 #endif
 
 #include <OpenEXR/ImfInputFile.h>
+#include <OpenEXR/ImfOutputFile.h>
+#include <OpenEXR/ImfChannelList.h>
+#include <OpenEXR/ImfFrameBuffer.h>
 #include <OpenEXR/ImfImage.h>
 #include <OpenEXR/ImfImageIO.h>
-#include <OpenEXR/ImfFrameBuffer.h>
 #include <half.h>
 
-#include "Imath/ImathVec.h"
+#include <Imath/ImathVec.h>
 //this has an error for some reason, i'm not sure why. it compiles though
-#include "OpenEXR/ImfRgbaFile.h"
-#include "OpenEXR/ImfOutputFile.h"
-#include "OpenEXR/ImfRgba.h"
+#include <OpenEXR/ImfRgbaFile.h>
+#include <OpenEXR/ImfRgba.h>
 
 /*#ifndef __APPLE__
 #include "lux.h"
