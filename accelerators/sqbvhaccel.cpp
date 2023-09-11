@@ -31,14 +31,14 @@ using namespace luxrays;
 namespace lux
 {
 
-SQBVHAccel::SQBVHAccel(const vector<boost::shared_ptr<Primitive> > &p,
+SQBVHAccel::SQBVHAccel(const vector<std::shared_ptr<Primitive> > &p,
 	u_int mp, u_int fst, u_int sf, float a) : alpha(a) {
 	maxPrimsPerLeaf = mp;
 	fullSweepThreshold = fst;
 	skipFactor = sf;
 
 	// Refine all primitives
-	vector<boost::shared_ptr<Primitive> > vPrims;
+	vector<std::shared_ptr<Primitive> > vPrims;
 	const PrimitiveRefinementHints refineHints(false);
 	for (u_int i = 0; i < p.size(); ++i) {
 		if(p[i]->CanIntersect())
@@ -101,7 +101,7 @@ SQBVHAccel::SQBVHAccel(const vector<boost::shared_ptr<Primitive> > &p,
 	spatialSplitCount = 0;
 	BuildTree(nodesPrims, primsIndexesList, vPrims, primsBboxes, worldBound, -1, 0, 0);
 
-	prims = AllocAligned<boost::shared_ptr<QuadPrimitive> >(nQuads);
+	prims = AllocAligned<std::shared_ptr<QuadPrimitive> >(nQuads);
 	nQuads = 0;
 	// Temporary data for building
 	u_int refCount = 0;
@@ -163,7 +163,7 @@ SQBVHAccel::SQBVHAccel(const vector<boost::shared_ptr<Primitive> > &p,
 
 void SQBVHAccel::BuildTree(vector<vector<u_int> > *nodesPrims,
 		const std::vector<u_int> &primsIndexes,
-		const vector<boost::shared_ptr<Primitive> > &vPrims,
+		const vector<std::shared_ptr<Primitive> > &vPrims,
 		const std::vector<BBox> &primsBboxes, const BBox &nodeBbox,
 		const int32_t parentIndex, const int32_t childIndex,
 		const int depth) {
@@ -347,7 +347,7 @@ void SQBVHAccel::DoObjectSplit(const std::vector<u_int> &primsIndexes, const std
 }
 
 void SQBVHAccel::DoSpatialSplit(const std::vector<u_int> &primsIndexes,
-		const vector<boost::shared_ptr<Primitive> > &vPrims, const std::vector<BBox> &primsBboxes,
+		const vector<std::shared_ptr<Primitive> > &vPrims, const std::vector<BBox> &primsBboxes,
 		const BBox &nodeBbox, const int spatialSplitBin, const int spatialSplitAxis,
 		const u_int spatialLeftChildReferences, const u_int spatialRightChildReferences,
 		std::vector<u_int> &leftPrimsIndexes, std::vector<u_int> &rightPrimsIndexes,
@@ -483,7 +483,7 @@ vector<Point> SQBVHAccel::GetPolygonVertexList(const Primitive *prim) const {
 }
 
 int SQBVHAccel::BuildSpatialSplit(const std::vector<u_int> &primsIndexes,
-		const vector<boost::shared_ptr<Primitive> > &vPrims,
+		const vector<std::shared_ptr<Primitive> > &vPrims,
 		const std::vector<BBox> &primsBboxes, const BBox &nodeBbox,
 		int &axis, BBox &leftChildBbox, BBox &rightChildBbox,
 		u_int &leftChildReferences, u_int &rightChildReferences) {
@@ -818,7 +818,7 @@ int SQBVHAccel::BuildObjectSplit(const std::vector<BBox> &primsBboxes, int &axis
 	return minBin;
 }
 
-Aggregate *SQBVHAccel::CreateAccelerator(const vector<boost::shared_ptr<Primitive> > &prims, const ParamSet &ps)
+Aggregate *SQBVHAccel::CreateAccelerator(const vector<std::shared_ptr<Primitive> > &prims, const ParamSet &ps)
 {
 	int maxPrimsPerLeaf = ps.FindOneInt("maxprimsperleaf", 4);
 	int fullSweepThreshold = ps.FindOneInt("fullsweepthreshold", 4 * maxPrimsPerLeaf);
