@@ -337,6 +337,7 @@ SET(lux_shapes_src
 	shapes/paraboloid.cpp
 	shapes/plymesh.cpp
 	shapes/plymesh/rply.c
+	shapes/lenscomponent.cpp
 	shapes/sphere.cpp
 	shapes/stlmesh.cpp
 	shapes/torus.cpp
