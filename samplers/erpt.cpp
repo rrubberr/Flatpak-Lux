@@ -280,7 +280,7 @@ void ERPTSampler::AddSample(const Sample &sample)
 			data->numChains = max(1U, Floor2UInt(data->quantum + .5f));
 			// The following line avoids to block on a pixel
 			// if the initial sample is extremely bright
-//			data->numChains = min(data->numChains, totalMutations);
+			data->numChains = min(data->numChains, totalMutations);
 			data->quantum /= data->numChains * totalMutations;
 			data->baseLY = newLY;
 			data->baseContributions = newContributions;
