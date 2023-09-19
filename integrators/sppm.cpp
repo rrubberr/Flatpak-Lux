@@ -85,9 +85,9 @@ SurfaceIntegrator *SPPMIntegrator::CreateSurfaceIntegrator(const ParamSet &param
 	sppmi->maxEyePathDepth = params.FindOneInt("maxeyedepth", 16);
 	sppmi->photonAlpha = params.FindOneFloat("alpha", .7f);
 	sppmi->photonStartRadiusScale = params.FindOneFloat("startradius", 2.f);
-	//sppmi->photonStartK = params.FindOneInt("startk", 0);
+	sppmi->photonStartK = params.FindOneInt("startk", 0);
 	// TODO: disable because of incorrect
-	sppmi->photonStartK = 0;
+	//sppmi->photonStartK = 0;
 	sppmi->maxPhotonPathDepth = params.FindOneInt("maxphotondepth", 16);
 
 	sppmi->parallelHashGridSpare = params.FindOneFloat("parallelhashgridspare", 1.0f);
