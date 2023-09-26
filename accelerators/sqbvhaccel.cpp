@@ -357,8 +357,8 @@ void SQBVHAccel::DoSpatialSplit(const std::vector<u_int> &primsIndexes,
 	const float k1 = (nodeBbox.pMax[spatialSplitAxis] - k0) / SPATIAL_SPLIT_BINS;
 	const float spatialSplitPos = k0 + k1 * (spatialSplitBin + 1);
 
-	const float leftSpatialSplitPos = spatialSplitPos;
-	const float rightSpatialSplitPos = spatialSplitPos;
+	//const float leftSpatialSplitPos = spatialSplitPos;
+	//const float rightSpatialSplitPos = spatialSplitPos;
 
 	// I have to use an extended bounding box for clipping the triangles (and
 	// than clip the resulting bounding box with the original) in order to avoid
@@ -369,8 +369,8 @@ void SQBVHAccel::DoSpatialSplit(const std::vector<u_int> &primsIndexes,
 	rightBbox.Expand(MachineEpsilon::E(rightBbox));
 
 	// The version used when Reference unsplitting is enabled
-	//const float leftSpatialSplitPos = leftBbox.pMax[spatialSplitAxis];
-	//const float rightSpatialSplitPos = rightBbox.pMin[spatialSplitAxis];
+	const float leftSpatialSplitPos = leftBbox.pMax[spatialSplitAxis];
+	const float rightSpatialSplitPos = rightBbox.pMin[spatialSplitAxis];
 
 	// Do spatial split
 	leftPrimsIndexes.reserve(spatialLeftChildReferences);
@@ -661,7 +661,7 @@ int SQBVHAccel::BuildSpatialSplit(const std::vector<u_int> &primsIndexes,
 	// Reference unsplitting
 	//--------------------------------------------------------------------------
 
-	/*for (u_int i = 0; i < primsIndexes.size(); ++i) {
+	for (u_int i = 0; i < primsIndexes.size(); ++i) {
 		const bool overlapLeft = (primsBboxes[i].pMin[axis] <= leftChildBbox.pMax[axis]);
 		const bool overlapRight = (primsBboxes[i].pMax[axis] > rightChildBbox.pMin[axis]);
 
@@ -692,7 +692,7 @@ int SQBVHAccel::BuildSpatialSplit(const std::vector<u_int> &primsIndexes,
 				leftChildReferences -= 1;
 			}
 		}
-	}*/
+	}
 
 	return minBin;
 }
