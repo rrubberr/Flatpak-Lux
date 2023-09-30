@@ -657,22 +657,22 @@ void MainWindow::forceToneMapUpdate()
 
 void MainWindow::openDocumentation ()
 {
-	QDesktopServices::openUrl(QUrl("http://www.luxrender.net/wiki/index.php?title=Main_Page"));
+	QDesktopServices::openUrl(QUrl("https://github.com/rrubberr/Flatpak-LuxRender/wiki"));
 }
 
 void MainWindow::openForums ()
 {
-	QDesktopServices::openUrl(QUrl("http://www.luxrender.net/forum/"));
+	QDesktopServices::openUrl(QUrl("https://github.com/rrubberr/Flatpak-LuxRender/issues"));
 }
 
 void MainWindow::openGallery ()
 {
-	QDesktopServices::openUrl(QUrl("http://www.luxrender.net/gallery"));
+	QDesktopServices::openUrl(QUrl("https://github.com/rrubberr/Flatpak-LuxRender-Scenes"));
 }
 
 void MainWindow::openBugTracker ()
 {
-	QDesktopServices::openUrl(QUrl("http://www.luxrender.net/mantis"));
+	QDesktopServices::openUrl(QUrl("https://github.com/rrubberr/Flatpak-LuxRender/issues"));
 }
 
 void MainWindow::ThreadChanged(int value)
