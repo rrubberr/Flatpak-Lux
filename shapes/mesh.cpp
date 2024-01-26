@@ -492,8 +492,8 @@ void Mesh::Refine(vector<std::shared_ptr<Primitive> > &refined,
 		case ACCEL_QBVH:
 			ss << "qbvh";
 			break;
-		case ACCEL_GRID:
-			ss << "grid";
+		case ACCEL_SQBVH:
+			ss << "sqbvh";
 			break;
 		case ACCEL_BRUTEFORCE:
 			ss << "bruteforce";
@@ -552,11 +552,11 @@ void Mesh::Refine(vector<std::shared_ptr<Primitive> > &refined,
 			case ACCEL_QBVH:
 				accel = MakeAccelerator("qbvh", refinedPrims, paramset);
 				break;
+			case ACCEL_SQBVH:
+				accel = MakeAccelerator("sqbvh", refinedPrims, paramset);
+				break;
 			case ACCEL_BVH:
 				accel = MakeAccelerator("bvh", refinedPrims, paramset);
-				break;
-			case ACCEL_GRID:
-				accel = MakeAccelerator("grid", refinedPrims, paramset);
 				break;
 			case ACCEL_BRUTEFORCE:
 				accel = MakeAccelerator("bruteforce", refinedPrims, paramset);
@@ -986,12 +986,12 @@ static Shape *CreateShape(const Transform &o2w, bool reverseOrientation, const P
 		accelType = Mesh::ACCEL_KDTREE;
 	else if (accelTypeStr == "qbvh")
 		accelType = Mesh::ACCEL_QBVH;
+	else if (accelTypeStr == "sqbvh")
+		accelType = Mesh::ACCEL_SQBVH;
 	else if (accelTypeStr == "bruteforce")
 		accelType = Mesh::ACCEL_BRUTEFORCE;
 	else if (accelTypeStr == "bvh")
 		accelType = Mesh::ACCEL_BVH;
-	else if (accelTypeStr == "grid")
-		accelType = Mesh::ACCEL_GRID;
 	else if (accelTypeStr == "none")
 		accelType = Mesh::ACCEL_NONE;
 	else if (accelTypeStr == "auto")
