@@ -498,6 +498,9 @@ void Mesh::Refine(vector<std::shared_ptr<Primitive> > &refined,
 		case ACCEL_BRUTEFORCE:
 			ss << "bruteforce";
 			break;
+		case ACCEL_BVH:
+			ss << "bvh";
+			break;
 		case ACCEL_KDTREE:
 			ss << "kdtree";
 			break;
@@ -548,6 +551,9 @@ void Mesh::Refine(vector<std::shared_ptr<Primitive> > &refined,
 				break;
 			case ACCEL_QBVH:
 				accel = MakeAccelerator("qbvh", refinedPrims, paramset);
+				break;
+			case ACCEL_BVH:
+				accel = MakeAccelerator("bvh", refinedPrims, paramset);
 				break;
 			case ACCEL_GRID:
 				accel = MakeAccelerator("grid", refinedPrims, paramset);
@@ -982,6 +988,8 @@ static Shape *CreateShape(const Transform &o2w, bool reverseOrientation, const P
 		accelType = Mesh::ACCEL_QBVH;
 	else if (accelTypeStr == "bruteforce")
 		accelType = Mesh::ACCEL_BRUTEFORCE;
+	else if (accelTypeStr == "bvh")
+		accelType = Mesh::ACCEL_BVH;
 	else if (accelTypeStr == "grid")
 		accelType = Mesh::ACCEL_GRID;
 	else if (accelTypeStr == "none")
