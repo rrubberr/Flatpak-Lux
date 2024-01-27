@@ -466,11 +466,8 @@ Shape* PlyMesh::CreateShape(const Transform &o2w,
 	const float colorGamma = params.FindOneFloat("gamma", 1.f);
 
 	std::shared_ptr<Texture<float> > dummytex;
-<<<<<<< Updated upstream
-	Mesh *mesh = new Mesh(o2w, reverseOrientation, name, Mesh::ACCEL_AUTO,
-=======
+
 	Mesh *mesh = new Mesh(o2w, reverseOrientation, name, Mesh::ACCEL_QBVH,
->>>>>>> Stashed changes
 		plyNbVerts, p, n, uv, cols, alphas, colorGamma,
 		Mesh::TRI_AUTO, plyNbTris, triVerts,
 		Mesh::QUAD_QUADRILATERAL, plyNbQuads, quadVerts, subdivType,
