@@ -295,7 +295,6 @@ SET(lux_renderers_src
 	renderers/hybridrenderer.cpp
 	renderers/hybridsamplerrenderer.cpp
 	renderers/samplerrenderer.cpp
-	renderers/luxcorerenderer.cpp
 	renderers/sppmrenderer.cpp
 	renderers/sppm/photonsampler.cpp
 	renderers/sppm/lookupaccel.cpp
@@ -310,7 +309,6 @@ SOURCE_GROUP("Source Files\\Renderers" FILES ${lux_renderers_src})
 SET(lux_rendererstatistics_src
 	renderers/statistics/samplerstatistics.cpp
 	renderers/statistics/hybridsamplerstatistics.cpp
-	renderers/statistics/luxcorestatistics.cpp
 	renderers/statistics/sppmstatistics.cpp
 	)
 SOURCE_GROUP("Source Files\\Renderers\\Statistics" FILES ${lux_rendererstatistics_src})
@@ -703,14 +701,12 @@ SET(lux_renderers_hdr
 	renderers/hybridrenderer.h
 	renderers/hybridsamplerrenderer.h
 	renderers/samplerrenderer.h
-	renderers/luxcorerenderer.h
 	renderers/sppmrenderer.h
 	)
 SOURCE_GROUP("Header Files\\Renderers" FILES ${lux_renderers_hdr})
 SET(lux_rendererstatistics_hdr
 	renderers/statistics/samplerstatistics.h
 	renderers/statistics/hybridsamplerstatistics.h
-	renderers/statistics/luxcorestatistics.h
 	renderers/statistics/sppmstatistics.h
 	)
 SOURCE_GROUP("Header Files\\Renderers\\Statistics" FILES ${lux_rendererstatistics_hdr})
@@ -887,9 +883,6 @@ IF(APPLE)
 	SET_TARGET_PROPERTIES(luxShared PROPERTIES OUTPUT_NAME lux)
 	SET_TARGET_PROPERTIES(luxShared PROPERTIES DEFINE_SYMBOL LUX_INTERNAL) # for controlling visibility
 	### tentative fix for crashing ultra long reality stacks due a compiler bug ###
-	if(${CMAKE_GENERATOR} MATCHES "Xcode" AND ${XCODE_VERSION} VERSION_LESS 6.3)
-		SET_SOURCE_FILES_PROPERTIES(renderers/luxcorerenderer.cpp COMPILE_FLAGS "-O0 -fno-lto")
-	endif()
 
 	if(${CMAKE_GENERATOR} MATCHES "Xcode")
 		SET_TARGET_PROPERTIES(luxShared PROPERTIES XCODE_ATTRIBUTE_LD_DYLIB_INSTALL_NAME @loader_path/liblux.dylib)
