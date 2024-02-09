@@ -86,7 +86,7 @@ using namespace cimg_library;
 #include <OpenEXR/ImfImageIO.h>
 #include <half.h>
 
-#include <Imath/ImathVec.h>
+#include <OpenEXR/ImathVec.h>
 //this has an error for some reason, i'm not sure why. it compiles though
 #include <OpenEXR/ImfRgbaFile.h>
 #include <OpenEXR/ImfRgba.h>

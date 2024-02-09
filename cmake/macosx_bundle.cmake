@@ -29,7 +29,7 @@
 # Gather the date in finder-style
 execute_process(COMMAND date "+%m/%d/%Y/%H:%M" OUTPUT_VARIABLE BUNDLING_TIME OUTPUT_STRIP_TRAILING_WHITESPACE)
 
-add_dependencies(luxrender luxShared luxrender luxconsole luxmerger luxcomp) # assure we can pack the bundle
+add_dependencies(luxrender luxStatic luxrender luxconsole luxmerger luxcomp) # assure we can pack the bundle
 	ADD_CUSTOM_COMMAND(
 		TARGET luxrender POST_BUILD
 		COMMAND mv ${CMAKE_BUILD_TYPE}/luxrender.app ${CMAKE_BUILD_TYPE}/LuxRender.app # this assures bundle name is right and case sensitive operations following do not fail
