@@ -28,7 +28,7 @@
 
 int main(int argc, char *argv[])
 {
-	QApplication::setDesktopSettingsAware(false);
+	QApplication::setDesktopSettingsAware(true);
 	LuxGuiApp application(argc, argv);
 
 /*	QString locale = QLocale::system().name();
