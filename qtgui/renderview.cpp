@@ -45,7 +45,7 @@ using namespace std;
 RenderView::RenderView(QWidget *parent) : QGraphicsView(parent)
 {
 	renderscene = new QGraphicsScene();
-	renderscene->setBackgroundBrush(QColor(53,53,53));
+	renderscene->setBackgroundBrush(QColor(127,127,127));
 	luxlogo = renderscene->addPixmap(QPixmap(":/images/luxlogo_bg.png"));
 	luxfb = renderscene->addPixmap(QPixmap(":/images/luxlogo_bg.png"));
 	luxfb->hide ();
