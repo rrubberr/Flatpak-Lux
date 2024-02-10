@@ -39,7 +39,7 @@ Mesh::Mesh(const Transform &o2w, bool ro, const string &name,
 	MeshTriangleType tritype, u_int trisCount, const int *tris,
 	MeshQuadType quadtype, u_int nquadsCount, const int *quads,
 	MeshSubdivType subdivtype, u_int nsubdivlevels,
-	std::shared_ptr<Texture<float> > &dmMap, float dmScale, float dmOffset,
+	boost::shared_ptr<Texture<float> > &dmMap, float dmScale, float dmOffset,
 	bool dmNormalSmooth, bool dmSharpBoundary, bool normalsplit, bool genTangents)
 	: Shape(o2w, ro, name)
 {
@@ -262,15 +262,15 @@ class MeshElemSharedPtr : public T
 {
 public:
 	MeshElemSharedPtr(const Mesh* m, u_int n,
-		const std::shared_ptr<Primitive> &aPtr)
+		const boost::shared_ptr<Primitive> &aPtr)
 	: T(m,n), ptr(aPtr) { }
 private:
-	const std::shared_ptr<Primitive> ptr;
+	const boost::shared_ptr<Primitive> ptr;
 };
 
-void Mesh::Refine(vector<std::shared_ptr<Primitive> > &refined,
+void Mesh::Refine(vector<boost::shared_ptr<Primitive> > &refined,
 	const PrimitiveRefinementHints &refineHints,
-	const std::shared_ptr<Primitive> &thisPtr)
+	const boost::shared_ptr<Primitive> &thisPtr)
 {
 	if (ntris + nquads == 0)
 		return;
@@ -289,7 +289,7 @@ void Mesh::Refine(vector<std::shared_ptr<Primitive> > &refined,
 					displacementMapNormalSmooth,
 					displacementMapSharpBoundary,
 					normalSplit, name);
-				std::shared_ptr<LoopSubdiv::SubdivResult> res(loopsubdiv.Refine());
+				boost::shared_ptr<LoopSubdiv::SubdivResult> res(loopsubdiv.Refine());
 				// Check if subdivision was successfull
 				if (!res)
 					break;
@@ -368,7 +368,7 @@ void Mesh::Refine(vector<std::shared_ptr<Primitive> > &refined,
 
 
 
-	vector<std::shared_ptr<Primitive> > refinedPrims;
+	vector<boost::shared_ptr<Primitive> > refinedPrims;
 	refinedPrims.reserve(ntris + nquads);
 	// Dade - refine triangles
 	MeshTriangleType concreteTriType = triType;
@@ -397,7 +397,7 @@ void Mesh::Refine(vector<std::shared_ptr<Primitive> > &refined,
 				else
 					currTri = new MeshElemSharedPtr<MeshWaldTriangle>(this, i, thisPtr);
 				if (!currTri->isDegenerate()) {
-					std::shared_ptr<Primitive> o(currTri);
+					boost::shared_ptr<Primitive> o(currTri);
 					refinedPrims.push_back(o);
 				} else
 					delete currTri;
@@ -411,7 +411,7 @@ void Mesh::Refine(vector<std::shared_ptr<Primitive> > &refined,
 				else
 					currTri = new MeshElemSharedPtr<MeshBaryTriangle>(this, i, thisPtr);
 				if (!currTri->isDegenerate()) {
-					std::shared_ptr<Primitive> o(currTri);
+					boost::shared_ptr<Primitive> o(currTri);
 					refinedPrims.push_back(o);
 				} else
 					delete currTri;
@@ -425,7 +425,7 @@ void Mesh::Refine(vector<std::shared_ptr<Primitive> > &refined,
 				else
 					currTri = new MeshElemSharedPtr<MeshMicroDisplacementTriangle>(this, i, thisPtr);
 				if (!currTri->isDegenerate()) {
-					std::shared_ptr<Primitive> o(currTri);
+					boost::shared_ptr<Primitive> o(currTri);
 					refinedPrims.push_back(o);
 				} else
 					delete currTri;
@@ -452,11 +452,11 @@ void Mesh::Refine(vector<std::shared_ptr<Primitive> > &refined,
 				MeshQuadrilateral* currQuad = new MeshQuadrilateral(this, i);
 				if (!currQuad->isDegenerate()) {
 					if (refinedPrims.size() > 0) {
-						std::shared_ptr<Primitive> o(currQuad);
+						boost::shared_ptr<Primitive> o(currQuad);
 						refinedPrims.push_back(o);
 					} else {
 						delete currQuad;
-						std::shared_ptr<Primitive> o(
+						boost::shared_ptr<Primitive> o(
 							new MeshElemSharedPtr<MeshQuadrilateral>(this, i, thisPtr));
 						refinedPrims.push_back(o);
 					}
@@ -544,7 +544,7 @@ void Mesh::Refine(vector<std::shared_ptr<Primitive> > &refined,
 		if (refineHints.forSampling && concreteAccelType == ACCEL_QBVH)
 			concreteAccelType = ACCEL_KDTREE;
 		ParamSet paramset;
-		std::shared_ptr<Aggregate> accel;
+		boost::shared_ptr<Aggregate> accel;
 		switch (concreteAccelType) {
 			case ACCEL_KDTREE:
 				accel = MakeAccelerator("kdtree", refinedPrims, paramset);
@@ -566,7 +566,7 @@ void Mesh::Refine(vector<std::shared_ptr<Primitive> > &refined,
 		}
 		if (refineHints.forSampling)
 			// Lotus - create primitive set to allow sampling
-			refined.push_back(std::shared_ptr<Primitive>(new PrimitiveSet(accel)));
+			refined.push_back(boost::shared_ptr<Primitive>(new PrimitiveSet(accel)));
 		else
 			refined.push_back(accel);
 	}
@@ -1080,13 +1080,13 @@ static Shape *CreateShape(const Transform &o2w, bool reverseOrientation, const P
 	bool displacementMapSharpBoundary = params.FindOneBool("dmsharpboundary", false);
 	bool normalSplit = params.FindOneBool("dmnormalsplit", false);
 
-	std::shared_ptr<Texture<float> > displacementMap;
+	boost::shared_ptr<Texture<float> > displacementMap;
 	if (displacementMapName != "") {
 		LOG(LUX_WARNING, LUX_SYNTAX) << "The \"string displacementmap\" syntax is now deprecated, use \"texture displacementmap\" instead";
 		// Lotus - read subdivision data
-		map<string, std::shared_ptr<Texture<float> > > *floatTextures = Context::GetActiveFloatTextures();
+		map<string, boost::shared_ptr<Texture<float> > > *floatTextures = Context::GetActiveFloatTextures();
 
-		std::shared_ptr<Texture<float> > dm((*floatTextures)[displacementMapName]);
+		boost::shared_ptr<Texture<float> > dm((*floatTextures)[displacementMapName]);
 		displacementMap = dm;
 
 		if (!displacementMap) {

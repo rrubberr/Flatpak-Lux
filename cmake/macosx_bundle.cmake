@@ -29,7 +29,7 @@
 # Gather the date in finder-style
 execute_process(COMMAND date "+%m/%d/%Y/%H:%M" OUTPUT_VARIABLE BUNDLING_TIME OUTPUT_STRIP_TRAILING_WHITESPACE)
 
-add_dependencies(luxrender luxShared luxrender luxconsole luxmerger luxcomp luxvr) # assure we can pack the bundle
+add_dependencies(luxrender luxShared luxrender luxconsole luxmerger luxcomp) # assure we can pack the bundle
 	ADD_CUSTOM_COMMAND(
 		TARGET luxrender POST_BUILD
 		COMMAND mv ${CMAKE_BUILD_TYPE}/luxrender.app ${CMAKE_BUILD_TYPE}/LuxRender.app # this assures bundle name is right and case sensitive operations following do not fail
@@ -45,7 +45,6 @@ add_dependencies(luxrender luxShared luxrender luxconsole luxmerger luxcomp luxv
 		COMMAND mv ${CMAKE_BUILD_TYPE}/luxconsole ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/LuxRender.app/Contents/MacOS/luxconsole
 		COMMAND mv ${CMAKE_BUILD_TYPE}/luxcomp ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/LuxRender.app/Contents/MacOS/luxcomp
 		COMMAND mv ${CMAKE_BUILD_TYPE}/luxmerger ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/LuxRender.app/Contents/MacOS/luxmerger
-		COMMAND mv ${CMAKE_BUILD_TYPE}/luxvr ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/LuxRender.app/Contents/MacOS/luxvr
 		COMMAND cp ${OSX_DEPENDENCY_ROOT}/lib/embree2/libembree.2.4.0.dylib ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/libembree.2.4.0.dylib
 		COMMAND cp ${CMAKE_BUILD_TYPE}/libembree.2.4.0.dylib ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/LuxRender.app/Contents/MacOS/libembree.2.4.0.dylib
 		COMMAND cp ${CMAKE_BUILD_TYPE}/liblux.dylib ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/LuxRender.app/Contents/MacOS/liblux.dylib

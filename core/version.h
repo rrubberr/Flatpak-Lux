@@ -28,7 +28,7 @@
 #define VERSION_STR(v) XVERSION_STR(v)
 
 #define LUX_VN_MAJOR 1
-#define LUX_VN_MINOR 7
+#define LUX_VN_MINOR 8
 #define LUX_VN_PATCH 0
 #define LUX_VN_BUILD 0
 #define LUX_VN_LABEL "dev"

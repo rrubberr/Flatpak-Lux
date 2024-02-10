@@ -38,76 +38,76 @@ static void LoadError(const string &type, const string &name)
 	LOG(LUX_ERROR,LUX_BUG)<< "Static loading of " << type << " '" << name << "' failed.";
 }
 
-std::shared_ptr<Shape> MakeShape(const string &name,
+boost::shared_ptr<Shape> MakeShape(const string &name,
 	const Transform &object2world, bool reverseOrientation,
 	const ParamSet &paramSet)
 {
 	if (DynamicLoader::registeredShapes().find(name) !=
 		DynamicLoader::registeredShapes().end()) {
-		std::shared_ptr<Shape> ret(DynamicLoader::registeredShapes()[name](object2world, reverseOrientation, paramSet));
+		boost::shared_ptr<Shape> ret(DynamicLoader::registeredShapes()[name](object2world, reverseOrientation, paramSet));
 		paramSet.ReportUnused();
 		return ret;
 	}
 
 	LoadError("shape", name);
-	return std::shared_ptr<Shape>();
+	return boost::shared_ptr<Shape>();
 }
 
-std::shared_ptr<Material> MakeMaterial(const string &name,
+boost::shared_ptr<Material> MakeMaterial(const string &name,
 	const Transform &mtl2world, const ParamSet &mp)
 {
 	if (DynamicLoader::registeredMaterials().find(name) !=
 		DynamicLoader::registeredMaterials().end()) {
-		std::shared_ptr<Material> ret(DynamicLoader::registeredMaterials()[name](mtl2world, mp));
+		boost::shared_ptr<Material> ret(DynamicLoader::registeredMaterials()[name](mtl2world, mp));
 		mp.ReportUnused();
 		return ret;
 	}
 
 	if (name != "")
 		LoadError("material", name);
-	return std::shared_ptr<Material>();
+	return boost::shared_ptr<Material>();
 }
 
-std::shared_ptr<Texture<float> > MakeFloatTexture(const string &name,
+boost::shared_ptr<Texture<float> > MakeFloatTexture(const string &name,
 	const Transform &tex2world, const ParamSet &tp)
 {
 	if (DynamicLoader::registeredFloatTextures().find(name) !=
 		DynamicLoader::registeredFloatTextures().end()) {
-		std::shared_ptr<Texture<float> > ret(DynamicLoader::registeredFloatTextures()[name](tex2world, tp));
+		boost::shared_ptr<Texture<float> > ret(DynamicLoader::registeredFloatTextures()[name](tex2world, tp));
 		tp.ReportUnused();
 		return ret;
 	}
 
 	LoadError("float texture", name);
-	return std::shared_ptr<Texture<float> >();
+	return boost::shared_ptr<Texture<float> >();
 }
 
-std::shared_ptr<Texture<SWCSpectrum> > MakeSWCSpectrumTexture(const string &name,
+boost::shared_ptr<Texture<SWCSpectrum> > MakeSWCSpectrumTexture(const string &name,
 	const Transform &tex2world, const ParamSet &tp)
 {
 	if (DynamicLoader::registeredSWCSpectrumTextures().find(name) !=
 		DynamicLoader::registeredSWCSpectrumTextures().end()) {
-		std::shared_ptr<Texture<SWCSpectrum> > ret(DynamicLoader::registeredSWCSpectrumTextures()[name](tex2world, tp));
+		boost::shared_ptr<Texture<SWCSpectrum> > ret(DynamicLoader::registeredSWCSpectrumTextures()[name](tex2world, tp));
 		tp.ReportUnused();
 		return ret;
 	}
 
 	LoadError("color texture", name);
-	return std::shared_ptr<Texture<SWCSpectrum> >();
+	return boost::shared_ptr<Texture<SWCSpectrum> >();
 }
 
-std::shared_ptr<Texture<FresnelGeneral> > MakeFresnelTexture(const string &name,
+boost::shared_ptr<Texture<FresnelGeneral> > MakeFresnelTexture(const string &name,
 	const Transform &tex2world, const ParamSet &tp)
 {
 	if (DynamicLoader::registeredFresnelTextures().find(name) !=
 		DynamicLoader::registeredFresnelTextures().end()) {
-		std::shared_ptr<Texture<FresnelGeneral> > ret(DynamicLoader::registeredFresnelTextures()[name](tex2world, tp));
+		boost::shared_ptr<Texture<FresnelGeneral> > ret(DynamicLoader::registeredFresnelTextures()[name](tex2world, tp));
 		tp.ReportUnused();
 		return ret;
 	}
 
 	LoadError("fresnel texture", name);
-	return std::shared_ptr<Texture<FresnelGeneral> >();
+	return boost::shared_ptr<Texture<FresnelGeneral> >();
 }
 
 Light *MakeLight(const string &name,
@@ -127,7 +127,7 @@ Light *MakeLight(const string &name,
 
 AreaLight *MakeAreaLight(const string &name,
 	const Transform &light2world, const ParamSet &paramSet,
-	const std::shared_ptr<Primitive> &prim)
+	const boost::shared_ptr<Primitive> &prim)
 {
 	if (DynamicLoader::registeredAreaLights().find(name) !=
 		DynamicLoader::registeredAreaLights().end()) {
@@ -158,18 +158,18 @@ Region *MakeVolumeRegion(const string &name,
 	return NULL;
 }
 
-std::shared_ptr<Volume> MakeVolume(const string &name,
+boost::shared_ptr<Volume> MakeVolume(const string &name,
 	const Transform &volume2world, const ParamSet &paramSet)
 {
 	if (DynamicLoader::registeredVolumes().find(name) !=
 		DynamicLoader::registeredVolumes().end()) {
-		std::shared_ptr<Volume> ret(DynamicLoader::registeredVolumes()[name](volume2world, paramSet));
+		boost::shared_ptr<Volume> ret(DynamicLoader::registeredVolumes()[name](volume2world, paramSet));
 		paramSet.ReportUnused();
 		return ret;
 	}
 
 	LoadError("volume", name);
-	return std::shared_ptr<Volume>();
+	return boost::shared_ptr<Volume>();
 }
 
 SurfaceIntegrator *MakeSurfaceIntegrator(const string &name,
@@ -202,13 +202,13 @@ VolumeIntegrator *MakeVolumeIntegrator(const string &name,
 	return NULL;
 }
 
-std::shared_ptr<Aggregate> MakeAccelerator(const string &name,
-	const vector<std::shared_ptr<Primitive> > &prims,
+boost::shared_ptr<Aggregate> MakeAccelerator(const string &name,
+	const vector<boost::shared_ptr<Primitive> > &prims,
 	const ParamSet &paramSet)
 {
 	if (DynamicLoader::registeredAccelerators().find(name) !=
 		DynamicLoader::registeredAccelerators().end()) {
-		std::shared_ptr<Aggregate> ret(
+		boost::shared_ptr<Aggregate> ret(
 			DynamicLoader::registeredAccelerators()[name](prims,
 				paramSet));
 		paramSet.ReportUnused();
@@ -216,7 +216,7 @@ std::shared_ptr<Aggregate> MakeAccelerator(const string &name,
 	}
 
 	LoadError("accelerator", name);
-	return std::shared_ptr<Aggregate>();
+	return boost::shared_ptr<Aggregate>();
 }
 
 Camera *MakeCamera(const string &name,

@@ -31,8 +31,8 @@ namespace lux
 struct BVHAccelTreeNode {
 	BBox bbox;
 	Primitive* primitive;
-	std::shared_ptr<BVHAccelTreeNode> leftChild;
-	std::shared_ptr<BVHAccelTreeNode> rightSibling;
+	boost::shared_ptr<BVHAccelTreeNode> leftChild;
+	boost::shared_ptr<BVHAccelTreeNode> rightSibling;
 };
 
 struct BVHAccelArrayNode {
@@ -45,7 +45,7 @@ struct BVHAccelArrayNode {
 class  BVHAccel : public Aggregate {
 public:
 	// BVHAccel Public Methods
-	BVHAccel(const vector<std::shared_ptr<Primitive> > &p, u_int treetype,
+	BVHAccel(const vector<boost::shared_ptr<Primitive> > &p, u_int treetype,
 		int csamples, int icost, int tcost, float ebonus);
 	virtual ~BVHAccel();
 	virtual BBox WorldBound() const;
@@ -56,22 +56,22 @@ public:
 		return Transform();
 	}
 
-	virtual void GetPrimitives(vector<std::shared_ptr<Primitive> > &prims) const;
+	virtual void GetPrimitives(vector<boost::shared_ptr<Primitive> > &prims) const;
 
-	static Aggregate *CreateAccelerator(const vector<std::shared_ptr<Primitive> > &prims, const ParamSet &ps);
+	static Aggregate *CreateAccelerator(const vector<boost::shared_ptr<Primitive> > &prims, const ParamSet &ps);
 
 private:
 	// BVHAccel Private Methods
-	std::shared_ptr<BVHAccelTreeNode> BuildHierarchy(vector<std::shared_ptr<BVHAccelTreeNode> > &list, u_int begin, u_int end, u_int axis);
-	void FindBestSplit(vector<std::shared_ptr<BVHAccelTreeNode> > &list, u_int begin, u_int end, float *splitValue, u_int *bestAxis);
-	u_int BuildArray(std::shared_ptr<BVHAccelTreeNode> &node, u_int offset);
+	boost::shared_ptr<BVHAccelTreeNode> BuildHierarchy(vector<boost::shared_ptr<BVHAccelTreeNode> > &list, u_int begin, u_int end, u_int axis);
+	void FindBestSplit(vector<boost::shared_ptr<BVHAccelTreeNode> > &list, u_int begin, u_int end, float *splitValue, u_int *bestAxis);
+	u_int BuildArray(boost::shared_ptr<BVHAccelTreeNode> &node, u_int offset);
 
 	// BVHAccel Private Data
 	u_int treeType;
 	int costSamples, isectCost, traversalCost;
 	float emptyBonus;
 	u_int nPrims;
-	std::shared_ptr<Primitive> *prims;
+	boost::shared_ptr<Primitive> *prims;
 	u_int nNodes;
 	BVHAccelArrayNode *bvhTree;
 };

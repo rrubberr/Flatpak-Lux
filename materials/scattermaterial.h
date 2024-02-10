@@ -35,8 +35,8 @@ namespace lux
 class ScatterMaterial : public Material {
 public:
 	// ScatterMaterial Public Methods
-	ScatterMaterial(std::shared_ptr<Texture<SWCSpectrum> > &kd,
-		std::shared_ptr<Texture<SWCSpectrum> > &g,
+	ScatterMaterial(boost::shared_ptr<Texture<SWCSpectrum> > &kd,
+		boost::shared_ptr<Texture<SWCSpectrum> > &g,
 		const ParamSet &mp) : Material("ScatterMaterial-" + boost::lexical_cast<string>(this), mp, false),
 		Kd(kd), G(g) { }
 	virtual ~ScatterMaterial() { }
@@ -48,7 +48,7 @@ public:
 		const ParamSet &mp);
 private:
 	// ScatterMaterial Private Data
-	std::shared_ptr<Texture<SWCSpectrum> > Kd, G;
+	boost::shared_ptr<Texture<SWCSpectrum> > Kd, G;
 };
 
 // UniformRGBScatterMaterial Class Declarations
@@ -73,7 +73,7 @@ class VolumeScatterMaterial : public Material {
 public:
 	// VolumeScatterMaterial Public Methods
 	VolumeScatterMaterial(const Volume *v,
-		std::shared_ptr<Texture<SWCSpectrum> > &g)
+		boost::shared_ptr<Texture<SWCSpectrum> > &g)
 		: Material("VolumeScatterMaterial-" + boost::lexical_cast<string>(this), ParamSet(), false),
 		volume(v), G(g) { }
 	virtual ~VolumeScatterMaterial() { }
@@ -83,7 +83,7 @@ public:
 private:
 	// VolumeScatterMaterial Private Data
 	const Volume *volume;
-	std::shared_ptr<Texture<SWCSpectrum> > G;
+	boost::shared_ptr<Texture<SWCSpectrum> > G;
 };
 
 }//namespace lux

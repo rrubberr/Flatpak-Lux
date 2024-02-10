@@ -1,9 +1,3 @@
-#LuxRender v. 1.5 Release Notes
-
-This version includes vast enhancements to the LuxCore architecture. When using LuxCore LuxRender can render a scene six times faster than the previous version, when using the CPU. With the addition of an OpenCL GPU furhter speed improvements can be achieved. 
-
-LuxCore needs to be enabled by the exporter that you use so check with the exporter if it provides support for this feature.
-
 ##Installation
 
 ###OS X

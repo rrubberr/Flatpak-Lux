@@ -31,9 +31,9 @@ namespace lux
 class Mirror : public Material {
 public:
 	// Mirror Public Methods
-	Mirror(std::shared_ptr<Texture<SWCSpectrum> > &r, 
-		std::shared_ptr<Texture<float> > &flm,
-		std::shared_ptr<Texture<float> > &flmindex, 
+	Mirror(boost::shared_ptr<Texture<SWCSpectrum> > &r, 
+		boost::shared_ptr<Texture<float> > &flm,
+		boost::shared_ptr<Texture<float> > &flmindex, 
 		const ParamSet &mp) : Material("Mirror-" + boost::lexical_cast<string>(this), mp),
 		Kr(r), film(flm),
 		filmindex(flmindex) { }
@@ -48,8 +48,8 @@ public:
 		const ParamSet &mp);
 private:
 	// Mirror Private Data
-	std::shared_ptr<Texture<SWCSpectrum> > Kr;
-	std::shared_ptr<Texture<float> > film, filmindex;
+	boost::shared_ptr<Texture<SWCSpectrum> > Kr;
+	boost::shared_ptr<Texture<float> > film, filmindex;
 };
 
 }//namespace lux

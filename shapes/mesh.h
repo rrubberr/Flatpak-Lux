@@ -42,7 +42,7 @@ public:
 		MeshTriangleType tritype, u_int trisCount, const int *tris,
 		MeshQuadType quadtype, u_int nquadsCount, const int *quads,
 		MeshSubdivType subdivType, u_int nsubdivlevels,
-		std::shared_ptr<Texture<float> > &displacementMap,
+		boost::shared_ptr<Texture<float> > &displacementMap,
 		float displacementMapScale, float displacementMapOffset,
 		bool displacementMapNormalSmooth,
 		bool displacementMapSharpBoundary, bool normalsplit,
@@ -52,9 +52,9 @@ public:
 	virtual BBox ObjectBound() const;
 	virtual BBox WorldBound() const;
 	virtual bool CanIntersect() const { return false; }
-	virtual void Refine(vector<std::shared_ptr<Primitive> > &refined,
+	virtual void Refine(vector<boost::shared_ptr<Primitive> > &refined,
 		const PrimitiveRefinementHints &refineHints,
-		const std::shared_ptr<Primitive> &thisPtr);
+		const boost::shared_ptr<Primitive> &thisPtr);
 	virtual bool CanSample() const { return false; }
 
 	virtual void Tessellate(vector<luxrays::TriangleMesh *> *meshList,
@@ -114,7 +114,7 @@ protected:
 	u_int nSubdivLevels;
 	MeshSubdivType subdivType;
 	// optional displacement map
-	std::shared_ptr<Texture<float> > displacementMap;
+	boost::shared_ptr<Texture<float> > displacementMap;
 	float displacementMapScale;
 	float displacementMapOffset;
 	float displacementMapMin, displacementMapMax;

@@ -48,7 +48,7 @@ public:
 		boost::shared_array<float> samplingMap;		
 		u_int noiseAwareMapVersion;
 		u_int userSamplingMapVersion;
-		std::shared_ptr<luxrays::Distribution2D> samplingDistribution2D;
+		boost::shared_ptr<luxrays::Distribution2D> samplingDistribution2D;
 	};
 
 	SobolSampler(int xstart, int xend, int ystart, int yend, bool useNoise);

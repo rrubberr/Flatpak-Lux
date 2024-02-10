@@ -33,9 +33,9 @@ class Metal : public Material {
 public:
 	// Metal Public Methods
 	Metal(const std::string &metalName,
-		std::shared_ptr<SPD > &n, std::shared_ptr<SPD > &k,
-		std::shared_ptr<Texture<float> > &u,
-		std::shared_ptr<Texture<float> > &v,
+		boost::shared_ptr<SPD > &n, boost::shared_ptr<SPD > &k,
+		boost::shared_ptr<Texture<float> > &u,
+		boost::shared_ptr<Texture<float> > &v,
 		const ParamSet &mp);
 	virtual ~Metal() { }
 
@@ -53,8 +53,8 @@ public:
 
 private:
 	// Metal Private Data
-	std::shared_ptr<SPD> N, K;
-	std::shared_ptr<Texture<float> > nu, nv;
+	boost::shared_ptr<SPD> N, K;
+	boost::shared_ptr<Texture<float> > nu, nv;
 };
 
 static string DEFAULT_METAL = "aluminium";

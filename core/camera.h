@@ -62,10 +62,10 @@ public:
 	 *
 	 * @param v A shared pointer to the volume definition
 	 */
-	void SetVolume(std::shared_ptr<Volume> &v) {
+	void SetVolume(boost::shared_ptr<Volume> &v) {
 		// Create a temporary to increase shared count
 		// The assignment is just a swap
-		std::shared_ptr<Volume> vol(v);
+		boost::shared_ptr<Volume> vol(v);
 		volume = vol;
 	}
 	/**
@@ -237,7 +237,7 @@ protected:
 	float ClipHither, ClipYon;
 	float ShutterOpen, ShutterClose;
 	int ShutterDistribution;
-	std::shared_ptr<Volume> volume;
+	boost::shared_ptr<Volume> volume;
 };
 class  ProjectiveCamera : public Camera {
 public:

@@ -41,7 +41,7 @@ IF(COMMAND cmake_policy)
 ENDIF(COMMAND cmake_policy)
 
 PROJECT(lux)
-SET(VERSION 1.5dev)
+SET(VERSION 1.8dev)
 
 SET(LUX_CMAKE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 SET(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} 
@@ -532,7 +532,7 @@ ELSE(APPLE)
 	SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 	SET(CMAKE_INSTALL_RPATH "$ORIGIN")
 ENDIF(APPLE)
-SET(LUX_LIBRARY_DEPENDS ${LUXRAYS_LIBRARY} ${LUXCORE_LIBRARY} ${SLG_LIBRARY} ${EMBREE_LIBRARY} ${OPENCL_LIBRARIES} ${OPENGL_LIBRARY} ${FREEIMAGE_LIBRARIES} ${OPENIMAGEIO_LIBRARIES} ${TIFF_LIBRARIES} ${PNG_LIBRARIES} ${JPEG_LIBRARIES} ${Boost_LIBRARIES} ${FFTW_LIBRARIES} ${SYS_LIBRARIES})
+SET(LUX_LIBRARY_DEPENDS ${LUXRAYS_LIBRARY} ${SLG_LIBRARY} ${EMBREE_LIBRARY} ${OPENCL_LIBRARIES} ${OPENGL_LIBRARY} ${FREEIMAGE_LIBRARIES} ${OPENIMAGEIO_LIBRARIES} ${TIFF_LIBRARIES} ${PNG_LIBRARIES} ${JPEG_LIBRARIES} ${Boost_LIBRARIES} ${FFTW_LIBRARIES} ${SYS_LIBRARIES})
 
 #############################################################################
 #############################################################################
@@ -557,7 +557,6 @@ INCLUDE(luxconsole)
 INCLUDE(luxmerger)
 INCLUDE(luxcomp)
 INCLUDE(luxrender)
-INCLUDE(luxvr)
 
 #############################################################################
 #############################################################################
