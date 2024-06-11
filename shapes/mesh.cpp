@@ -380,10 +380,13 @@ void Mesh::Refine(vector<boost::shared_ptr<Primitive> > &refined,
 		//  the following are accounted for: vertices, vertex indices, Mesh*Triangle data
 		//  and one shared_ptr in the accel
 		//TODO Lotus - find good values
-		if (ntris <= 200000)
-			concreteTriType = TRI_WALD;
-		else
+		if (ntris >= 1)
 			concreteTriType = TRI_BARY;
+		//below is the original value maintained for reference
+		//if (ntris <= 200000)
+		//	concreteTriType = TRI_WALD;
+		else
+			concreteTriType = TRI_WALD;
 	}
 
 	inconsistentShadingTris = 0;
