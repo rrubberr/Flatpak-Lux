@@ -34,10 +34,6 @@ void QueryableRegistry::Insert(Queryable* object)
 {
 	boost::mutex::scoped_lock lock(classWideMutex);
 	std::map<std::string, Queryable*>::iterator it = queryableObjects.find(object->GetName());
-	if (it != queryableObjects.end()) {
-		LOG(LUX_ERROR, LUX_BUG) << "Duplicate registration of Queryable object '" << object->GetName() << "' detected";
-		queryableObjects.erase(it);
-	}
 	queryableObjects.insert(std::pair<std::string,Queryable*>(object->GetName(),object));
 }
 

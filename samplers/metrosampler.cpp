@@ -446,9 +446,9 @@ Sampler* MetropolisSampler::CreateSampler(const ParamSet &params, Film *film)
 	film->GetSampleExtent(&xStart, &xEnd, &yStart, &yEnd);
 	int maxConsecRejects = params.FindOneInt("maxconsecrejects", 512);	// number of consecutive rejects before a next mutation is forced
 	float largeMutationProb = params.FindOneFloat("largemutationprob", 0.4f);	// probability of generating a large sample mutation
-	bool useVariance = params.FindOneBool("usevariance", false);
-	bool useCooldown = params.FindOneBool("usecooldown", true);
-	bool useNoiseAware = params.FindOneBool("noiseaware", false);
+	bool useVariance = params.FindOneBool("usevariance", false); // use the variance hint provided by some integrators to alter sample acceptance 
+	bool useCooldown = params.FindOneBool("usecooldown", true); // ramp the largemutationprob from 0.5 to the provided value during the first few seconds of rendering
+	bool useNoiseAware = params.FindOneBool("noiseaware", false); // enables or disables the noise-aware mode
 	float range = params.FindOneFloat("mutationrange", (xEnd - xStart + yEnd - yStart) / 32.f);	// maximum distance in pixel for a small mutation
 
 	if (useNoiseAware) {
