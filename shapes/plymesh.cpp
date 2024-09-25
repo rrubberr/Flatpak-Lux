@@ -467,7 +467,7 @@ Shape* PlyMesh::CreateShape(const Transform &o2w,
 
 	boost::shared_ptr<Texture<float> > dummytex;
 
-	Mesh *mesh = new Mesh(o2w, reverseOrientation, name, Mesh::ACCEL_QBVH,
+	Mesh *mesh = new Mesh(o2w, reverseOrientation, name, Mesh::ACCEL_NONE,
 		plyNbVerts, p, n, uv, cols, alphas, colorGamma,
 		Mesh::TRI_AUTO, plyNbTris, triVerts,
 		Mesh::QUAD_QUADRILATERAL, plyNbQuads, quadVerts, subdivType,
